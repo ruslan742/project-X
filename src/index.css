@@ -59,7 +59,13 @@ html {
 .aipicker-textarea {
   @apply w-full bg-transparent text-sm border border-gray-300 p-2 outline-none flex-1;
 }
+.logopicker-container {
+  @apply absolute bottom-full ml-3 glassmorphism p-3 w-[195px] h-[220px] flex flex-col rounded-md;
+}
 
+/* .texturepicker-container {
+  @apply absolute top-full ml-3 glassmorphism p-3 w-[195px] h-[220px] flex flex-col rounded-md;
+} */
 .filepicker-container {
   @apply absolute left-full ml-3 glassmorphism p-3 w-[195px] h-[220px] flex flex-col rounded-md;
 }

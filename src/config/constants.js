@@ -1,5 +1,58 @@
 import { swatch, fileIcon, ai, logoShirt, stylishShirt, logoSock, logoHoodie, logoShirt2 } from "../../public/assets";
+import {  css,docker,figma,git,html,javascript,mongodb,nodejs,reactjs,redux,tailwind,typescript } from "../../public/logos";
 
+export const Logos=[
+  {
+    name: "css",
+    image: css,
+  },
+  {
+    name: "docker",
+    image: docker,
+  },
+  {
+    name: "figma",
+    image: figma,
+  },
+  {
+    name: "git",
+    image: git,
+  },
+  {
+    name: "html",
+    image: html,
+  },
+  {
+    name: "javascript",
+    image: javascript,
+  },
+  {
+    name: "mongodb",
+    image: mongodb,
+  },
+  {
+    name: "nodejs",
+    image: nodejs,
+  },
+  {
+    name: "reactjs",
+    image: reactjs,
+  },
+  {
+    name: "redux",
+    image: redux,
+  },
+  {
+    name: "tailwind",
+    image: tailwind,
+  },
+  {
+    name: "typescript",
+    image: typescript,
+  },
+  
+  
+]
 export const EditorTabs = [
   {
     name: "colorpicker",

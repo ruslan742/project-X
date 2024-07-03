@@ -2,34 +2,32 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { useSnapshot } from "valtio";
 import { fadeAnimation, slideAnimation } from "../config/motion";
-import { download } from "../../public/assets";
-import { downloadCanvasToImage, reader } from "../config/helpers";
+import { reader } from "../config/helpers";
 import { ColorPicker, CustomButton, FilePicker, Tab } from "../components";
 import { ClothTabs, DecalTypes, EditorTabs, FilterTabs } from "../config/constants";
 import state from "../store";
 import { Canvas } from "@react-three/fiber";
-import { Environment, Center, OrbitControls } from "@react-three/drei";
-import { animateWithGsapTimeLine } from "../utils/animations";
-// import Backdrop from './Backdrop';
-// import CameraRig from './CameraRig';
+import { Environment } from "@react-three/drei";
 import Shirt from "../canvas/Shirt";
 import Hoodie from "../canvas/Hoodie";
 import Sock from "../canvas/Sock";
 import CameraRig from "../canvas/CameraRig";
+import LogoPicker from "../components/LogoPicker";
+import TexturePicker from "../components/TexturePicker";
+
 function Customizer() {
+  const isGalleryOpen = true;
   const snap = useSnapshot(state);
   const [file, setFile] = useState("");
   const [prompt, setPrompt] = useState("");
   const [generatingImg, setGeneratingImg] = useState(false);
   const [activeEditorTab, setActiveEditorTab] = useState("");
+  const [activeEditorLogoTab, setActiveEditorLogoTab] = useState("");
   const [activeFilterTab, setActiveFilterTab] = useState({
     logoShirt: true,
     stylishShirt: false,
   });
-  // const [activeClothTab, setActiveClothTab] = useState({
-  //   // logoShirt: true,
-  //   // stylishShirt: false,
-  // });
+
   const generateTabContent = () => {
     switch (activeEditorTab) {
       case "colorpicker":
@@ -38,7 +36,16 @@ function Customizer() {
         return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
       case "aipicker":
         return <AIPicker prompt={prompt} setPrompt={setPrompt} generatingImg={generatingImg} handleSubmit={handleSubmit} />;
-
+      default:
+        return null;
+    }
+  };
+  const generateLogoTabContent = () => {
+    switch (activeEditorLogoTab) {
+      case "logoShirt":
+        return <LogoPicker />;
+      case "stylishShirt":
+        return <TexturePicker />;
       default:
         return null;
     }
@@ -121,27 +128,6 @@ function Customizer() {
       };
     });
   };
-  // const handleActiveClothTab = (tabName) => {
-  //   switch (tabName) {
-  //     case "logoShirt":
-  //       state.isLogoTexture = !activeFilterTab[tabName];
-  //       break;
-  //     case "stylishShirt":
-  //       state.isFullTexture = !activeFilterTab[tabName];
-  //       break;
-
-  //     default:
-  //       state.isFullTexture = false;
-  //       state.isLogoTexture = true;
-  //       break;
-  //   }
-  //   setActiveFilterTab((prevState) => {
-  //     return {
-  //       ...prevState,
-  //       [tabName]: !prevState[tabName],
-  //     };
-  //   });
-  // };
 
   const readFile = (type) => {
     reader(file).then((result) => {
@@ -149,6 +135,7 @@ function Customizer() {
       setActiveEditorTab("");
     });
   };
+
   return (
     <section className="app">
       <Canvas
@@ -184,14 +171,24 @@ function Customizer() {
 
           <motion.div className="filtertabs-container" {...slideAnimation("up")}>
             {FilterTabs.map((tab) => (
-              <Tab key={tab.name} tab={tab} isFilterTab isActiveTab={activeFilterTab[tab.name]} handleClick={() => handleActiveFilterTab(tab.name)} />
+              <Tab
+                key={tab.name}
+                tab={tab}
+                isFilterTab
+                isActiveTab={activeFilterTab[tab.name]}
+                handleClick={() => {
+                  handleActiveFilterTab(tab.name);
+                  setActiveEditorLogoTab(tab.name);
+                }}
+              />
             ))}
+            {generateLogoTabContent()}
           </motion.div>
           <motion.div className="absolute z-10 top-5 right-5" {...fadeAnimation}>
             <CustomButton
               type="filled"
               title="Добавить в корзину"
-              handleClick={() => (state.intro = true)}
+              handleClick={() => {}}
               customStyles="w-fit px-4 py-2.5 font-bold text-sm"
             />
           </motion.div>
