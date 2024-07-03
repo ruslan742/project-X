@@ -10,7 +10,7 @@ const Shirt = () => {
   //   nodes.MatShape_1205870.scale.x = 1;
   // nodes.MatShape_1205870.scale.y = 1;
   // nodes.MatShape_1205870.scale.z = 1;
-  console.log("nodes ===>", nodes, "materials==>", materials);
+  // console.log("nodes ===>", nodes, "materials==>", materials);
   const logoTexture = useTexture(snap.logoDecal);
   const fullTexture = useTexture(snap.fullDecal);
   useFrame((state, delta) => easing.dampC(materials["Material.002"].color, snap.color, 0.25, delta));

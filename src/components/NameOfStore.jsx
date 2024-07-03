@@ -5,13 +5,13 @@ import { Reflector, Text, useTexture, useGLTF, MeshReflectorMaterial } from "@re
 
 export default function NameOfStore() {
   return (
-    <section className=" h-[90vh] bg-black ">
+    <section className=" h-[60vh] bg-black ">
       <Canvas concurrent gl={{ alpha: false }} pixelRatio={[1, 1.5]} camera={{ position: [0, 0, 100], fov: 55 }}>
         <color attach="background" args={["black"]} />
         <fog attach="fog" args={["black", 15, 20]} />
         <Suspense fallback={null}>
           <group position={[0, -1, 0]}>
-            <VideoText position={[0, 1.3, -2]} />
+            <VideoText position={[0, 1.3, 7]} />
             {/* <Ground /> */}
             {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
               <planeGeometry args={[20, 10]} />
@@ -36,23 +36,26 @@ export default function NameOfStore() {
           <Intro />
         </Suspense>
       </Canvas>
+      <p id="title" className="section-heading" style={{ textAlign: "center" }}>
+        Возьми готовое или сотвори свое - магазин возможностей для тебя.
+      </p>
     </section>
   );
 }
 
-function Carla(props) {
-  const { scene } = useGLTF("/carla-draco.glb");
-  return <primitive object={scene} {...props} />;
-}
+// function Carla(props) {
+//   const { scene } = useGLTF("/carla-draco.glb");
+//   return <primitive object={scene} {...props} />;
+// }
 
 function VideoText(props) {
   const [video] = useState(() =>
-    Object.assign(document.createElement("video"), { src: "/drei.mp4", crossOrigin: "Anonymous", loop: true, muted: true })
+    Object.assign(document.createElement("video"), { src: "/drei3.mp4", crossOrigin: "Anonymous", loop: true, muted: true })
   );
   useEffect(() => void video.play(), [video]);
   return (
     <Text font="/Inter-Bold.woff" textAlign="center" fontSize={3} letterSpacing={-0.06} {...props}>
-      {"Name \n of \n Store"}
+      {"Cyber \n Store "}
       <meshBasicMaterial toneMapped={false}>
         <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} />
       </meshBasicMaterial>

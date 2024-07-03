@@ -9,7 +9,7 @@ const Shirt = () => {
   const snap = useSnapshot(state);
   const { nodes, materials } = useGLTF("/hoodie.glb");
 
-  console.log("nodes ===>", nodes, "materials==>", materials);
+  // console.log("nodes ===>", nodes, "materials==>", materials);
   // nodes.Hoodie.geometry.boundingSphere.radius = 0.5;
   // nodes.Hoodie.geometry.boundingSphere.center.y = 0.5;
   // nodes.Hoodie.geometry.boundingBox.max.x = 0.27;

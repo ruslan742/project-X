@@ -12,14 +12,18 @@ import * as Sentry from "@sentry/react";
 import Canvas from "./canvas";
 import Customizer from "./pages/Customizer";
 import Home from "./pages/Home";
+import Hero from "./components/Hero";
 const App = () => {
   return (
     <main className="bg-black">
       <Navbar />
+      {/* <NameOfStore /> */}
+      {/* <Gallery /> */}
+      {/* <Hero /> */}
       {/* <Test />
-      <NameOfStore />
-      <Gallery />
-      <Hero />
+      
+      
+     
       <Highligts />
 
       <Features />
