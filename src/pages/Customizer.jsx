@@ -17,7 +17,6 @@ import TexturePicker from "../components/TexturePicker";
 
 function Customizer() {
   const tabRef = useRef(null);
-  const isGalleryOpen = true;
   const snap = useSnapshot(state);
   const [file, setFile] = useState("");
   const [prompt, setPrompt] = useState("");
@@ -62,23 +61,19 @@ function Customizer() {
         state.clothzScale = 115;
         state.clothxScale = 0;
         state.clothyScale = 135;
-
         break;
       case "shirt":
         state.cloth = "shirt";
         state.clothzScale = 1;
         state.clothxScale = 0;
         state.clothyScale = 0;
-
         break;
       case "sock":
         state.cloth = "sock";
         state.clothzScale = 455;
         state.clothxScale = 95;
         state.clothyScale = 145;
-
         break;
-
       default:
         break;
     }
@@ -120,7 +115,6 @@ function Customizer() {
       case "stylishShirt":
         state.isFullTexture = !activeFilterTab[tabName];
         break;
-
       default:
         state.isFullTexture = false;
         state.isLogoTexture = false;
@@ -151,10 +145,7 @@ function Customizer() {
       >
         <ambientLight intensity={0.5} />
         <Environment preset="city" />
-
         <CameraRig>
-          {/* <Backdrop /> */}
-
           {snap.cloth === "shirt" && <Shirt />}
           {snap.cloth === "hoodie" && <Hoodie />}
           {snap.cloth === "sock" && <Sock />}
@@ -174,14 +165,13 @@ function Customizer() {
             </div>
           </motion.div>
           <motion.div key="custom" className="absolute top-0 right-10 z-10" {...slideAnimation("right")}>
-          <div className="flex items-center min-h-screen">
-          <div className="buttontabs-container ">
-            <CustomButton type="filled" title="Добавить в корзину" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
-            <CustomButton type="filled" title="Добавить в избранное" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
-            </div>
+            <div className="flex items-center min-h-screen">
+              <div className="buttontabs-container ">
+                <CustomButton type="filled" title="Добавить в корзину" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
+                <CustomButton type="filled" title="Добавить в избранное" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
+              </div>
             </div>
           </motion.div>
-
           <motion.div ref={tabRef} className="filtertabs-container" {...slideAnimation("up")}>
             {FilterTabs.map((tab) => (
               <Tab
@@ -191,10 +181,7 @@ function Customizer() {
                 isActiveTab={activeFilterTab[tab.name]}
                 handleClick={() => {
                   handleActiveFilterTab(tab.name);
-                  //console.log("activeEditorLogoTab", activeEditorLogoTab);
                   setActiveEditorLogoTab(tab.name);
-                  // setActiveEditorLogoTab("");
-                  // console.log("activeEditorLogoTab2", activeEditorLogoTab);
                 }}
               />
             ))}

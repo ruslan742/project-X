@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import React, { Suspense, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Reflector, Text, useTexture, useGLTF, MeshReflectorMaterial } from "@react-three/drei";
+import { Text } from "@react-three/drei";
 
 export default function NameOfStore() {
   return (
@@ -12,23 +12,6 @@ export default function NameOfStore() {
         <Suspense fallback={null}>
           <group position={[0, -1, 0]}>
             <VideoText position={[0, 1.3, 7]} />
-            {/* <Ground /> */}
-            {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-              <planeGeometry args={[20, 10]} />
-              <MeshReflectorMaterial
-                blur={[400, 100]}
-                resolution={512}
-                mixBlur={6}
-                mirror={0.5}
-                opacity={2}
-                depthScale={1.1}
-                minDepthThreshold={0.4}
-                maxDepthThreshold={1.25}
-                roughness={1}
-                color="#a0a0a0"
-                metalness={0.4}
-              />
-            </mesh> */}
           </group>
           <ambientLight intensity={0.5} />
           <spotLight position={[0, 10, 0]} intensity={0.3} />
@@ -43,19 +26,14 @@ export default function NameOfStore() {
   );
 }
 
-// function Carla(props) {
-//   const { scene } = useGLTF("/carla-draco.glb");
-//   return <primitive object={scene} {...props} />;
-// }
-
 function VideoText(props) {
   const [video] = useState(() =>
-    Object.assign(document.createElement("video"), { src: "/drei3.mp4", crossOrigin: "Anonymous", loop: true, muted: true })
+    Object.assign(document.createElement("video"), { src: "/videos/bladeRunner.mp4", crossOrigin: "Anonymous", loop: true, muted: true })
   );
   useEffect(() => void video.play(), [video]);
   return (
-    <Text font="/Inter-Bold.woff" textAlign="center" fontSize={3} letterSpacing={-0.06} {...props}>
-      {"Cyber \n Store "}
+    <Text font="/fonts/Inter-Bold.woff" textAlign="center" fontSize={3} letterSpacing={-0.06} {...props}>
+      {"Cyber \n Closet "}
       <meshBasicMaterial toneMapped={false}>
         <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} />
       </meshBasicMaterial>

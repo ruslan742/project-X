@@ -1,7 +1,8 @@
 import { swatch, fileIcon, ai, logoShirt, stylishShirt, logoSock, logoHoodie, logoShirt2 } from "../../public/assets";
-import {  css,docker,figma,git,html,javascript,mongodb,nodejs,reactjs,redux,tailwind,typescript } from "../../public/logos";
-import {  texture1,texture2,texture3,texture4,texture5,texture6,texture7,texture8,texture9,texture10 } from "../../public/textures";
-export const Textures=[
+import { css, docker, figma, git, html, javascript, mongodb, nodejs, reactjs, redux, tailwind, typescript } from "../../public/logos";
+import { texture1, texture2, texture3, texture4, texture5, texture6, texture7, texture8, texture9, texture10 } from "../../public/textures";
+
+export const Textures = [
   {
     name: "texture1",
     image: texture1,
@@ -42,8 +43,8 @@ export const Textures=[
     name: "texture10",
     image: texture10,
   },
-]
-export const Logos=[
+];
+export const Logos = [
   {
     name: "css",
     image: css,
@@ -92,9 +93,7 @@ export const Logos=[
     name: "typescript",
     image: typescript,
   },
-  
-  
-]
+];
 export const EditorTabs = [
   {
     name: "colorpicker",
@@ -145,3 +144,5 @@ export const DecalTypes = {
     filterTab: "stylishShirt",
   },
 };
+export const footerLinks = ["Privacy Policy", "Terms of Use", "Sales Policy", "Legal", "Site Map"];
+export const navLists = ["Галерея", "Конструктор", "Избранное"];

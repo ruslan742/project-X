@@ -10,8 +10,7 @@ export default function LogoPicker({ closeModal, tabRef }) {
     state.logoDecal = logo;
   };
   const handleClickOutside = (event) => {
-    if ((logoPickerRef.current && !logoPickerRef.current.contains(event.target) && !tabRef.current.contains(event.target))) {
-
+    if (logoPickerRef.current && !logoPickerRef.current.contains(event.target) && !tabRef.current.contains(event.target)) {
       // Закрываем окно с выбором логотипа
       closeModal();
     }
@@ -28,10 +27,6 @@ export default function LogoPicker({ closeModal, tabRef }) {
       className="logopicker-container overflow-y-auto"
       style={{
         scrollbarColor: `${snap.color} #fcfcfc`,
-        // cursor: "pointer",
-
-        // scrollbarWidth: "thin",
-        // scrollbarTrackColor: "#f233f1f1",
       }}
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">

@@ -9,27 +9,26 @@ export default function LogoPicker({ closeModal, tabRef }) {
   const handleClickTexture = (texture) => {
     state.fullDecal = texture;
   };
+
   const handleClickOutside = (event) => {
-    if ((texturePickerRef.current && !texturePickerRef.current.contains(event.target) && !tabRef.current.contains(event.target))) {
+    if (texturePickerRef.current && !texturePickerRef.current.contains(event.target) && !tabRef.current.contains(event.target)) {
       closeModal();
     }
   };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <div
       ref={texturePickerRef}
       className="logopicker-container overflow-y-auto"
       style={{
         scrollbarColor: `${snap.color} #fcfcfc`,
-        // cursor: "pointer",
-
-        // scrollbarWidth: "thin",
-        // scrollbarTrackColor: "#f233f1f1",
       }}
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">

@@ -6,14 +6,12 @@ import { easing } from "maath";
 const CameraRig = ({ children }) => {
   const group = useRef();
   const snap = useSnapshot(state);
-
   useFrame((state, delta) => {
     const isBreakpoint = window.innerWidth <= 1260;
     const isMobile = window.innerWidth <= 600;
     let targetPosition = [snap.clothxScale, snap.clothyScale, 2 * snap.clothzScale];
-
     if (snap.intro) {
-      if (isBreakpoint) targetPosition = [snap.clothxScale, snap.clothyScale, 2 * snap.clothzScale]; //поставил 5
+      if (isBreakpoint) targetPosition = [snap.clothxScale, snap.clothyScale, 2 * snap.clothzScale]; 
       if (isMobile) targetPosition = [snap.clothxScale, snap.clothyScale, 2.5 * snap.clothzScale];
     } else {
       if (isMobile) targetPosition = [snap.clothxScale, snap.clothyScale, 2.5 * snap.clothzScale];

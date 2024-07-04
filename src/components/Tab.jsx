@@ -8,9 +8,7 @@ const Tab = ({ tab, isFilterTab, isClothTab, isActiveTab, handleClick }) => {
     (isFilterTab && isActiveTab) || (isClothTab && isActiveTab)
       ? { backgroundColor: snap.color, opacity: 0.5 }
       : { backgroundColor: "transparent", opacity: 1 };
-  // (isClothTab) && isActiveTab
-  // ? { backgroundColor: snap.color, opacity: 0.5 }
-  // : { backgroundColor: 'transparent', opacity: 1 };
+
   return (
     <div
       key={tab.name}

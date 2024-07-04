@@ -4,13 +4,10 @@ const state = proxy({
   clothyScale: 140,
   clothxScale: 105,
   cloth: "sock",
-  intro: false,
   color: "#EFBD48",
   isLogoTexture: false,
   isFullTexture: false,
-  logoDecal: "./threejs.png",
- 
-
-  fullDecal: "./kosmos.png",
+  logoDecal: "./logos/css.png",
+  fullDecal: "./textures/1.jpg",
 });
 export default state;
