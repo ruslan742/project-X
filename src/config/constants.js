@@ -1,6 +1,48 @@
 import { swatch, fileIcon, ai, logoShirt, stylishShirt, logoSock, logoHoodie, logoShirt2 } from "../../public/assets";
 import {  css,docker,figma,git,html,javascript,mongodb,nodejs,reactjs,redux,tailwind,typescript } from "../../public/logos";
-
+import {  texture1,texture2,texture3,texture4,texture5,texture6,texture7,texture8,texture9,texture10 } from "../../public/textures";
+export const Textures=[
+  {
+    name: "texture1",
+    image: texture1,
+  },
+  {
+    name: "texture2",
+    image: texture2,
+  },
+  {
+    name: "texture3",
+    image: texture3,
+  },
+  {
+    name: "texture4",
+    image: texture4,
+  },
+  {
+    name: "texture5",
+    image: texture5,
+  },
+  {
+    name: "texture6",
+    image: texture6,
+  },
+  {
+    name: "texture7",
+    image: texture7,
+  },
+  {
+    name: "texture8",
+    image: texture8,
+  },
+  {
+    name: "texture9",
+    image: texture9,
+  },
+  {
+    name: "texture10",
+    image: texture10,
+  },
+]
 export const Logos=[
   {
     name: "css",

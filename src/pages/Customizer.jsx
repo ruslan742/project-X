@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 import { fadeAnimation, slideAnimation } from "../config/motion";
 import { reader } from "../config/helpers";
@@ -16,6 +16,7 @@ import LogoPicker from "../components/LogoPicker";
 import TexturePicker from "../components/TexturePicker";
 
 function Customizer() {
+  const tabRef = useRef(null);
   const isGalleryOpen = true;
   const snap = useSnapshot(state);
   const [file, setFile] = useState("");
@@ -24,7 +25,7 @@ function Customizer() {
   const [activeEditorTab, setActiveEditorTab] = useState("");
   const [activeEditorLogoTab, setActiveEditorLogoTab] = useState("");
   const [activeFilterTab, setActiveFilterTab] = useState({
-    logoShirt: true,
+    logoShirt: false,
     stylishShirt: false,
   });
 
@@ -40,16 +41,20 @@ function Customizer() {
         return null;
     }
   };
+  const closeModal = () => {
+    setActiveEditorLogoTab("");
+  };
   const generateLogoTabContent = () => {
     switch (activeEditorLogoTab) {
       case "logoShirt":
-        return <LogoPicker />;
+        return <LogoPicker closeModal={closeModal} tabRef={tabRef} />;
       case "stylishShirt":
-        return <TexturePicker />;
+        return <TexturePicker closeModal={closeModal} tabRef={tabRef} />;
       default:
         return null;
     }
   };
+
   const handleActiveClothTab = (tabName) => {
     switch (tabName) {
       case "hoodie":
@@ -118,7 +123,7 @@ function Customizer() {
 
       default:
         state.isFullTexture = false;
-        state.isLogoTexture = true;
+        state.isLogoTexture = false;
         break;
     }
     setActiveFilterTab((prevState) => {
@@ -160,7 +165,7 @@ function Customizer() {
         <>
           <motion.div key="custom" className="absolute top-0 left-0 z-10" {...slideAnimation("left")}>
             <div className="flex items-center min-h-screen">
-              <div className="editortabs-container tabs">
+              <div className="editortabs-container ">
                 {EditorTabs.map((tab) => (
                   <Tab key={tab.name} tab={tab} handleClick={() => setActiveEditorTab(tab.name)} />
                 ))}
@@ -168,8 +173,16 @@ function Customizer() {
               </div>
             </div>
           </motion.div>
+          <motion.div key="custom" className="absolute top-0 right-10 z-10" {...slideAnimation("right")}>
+          <div className="flex items-center min-h-screen">
+          <div className="buttontabs-container ">
+            <CustomButton type="filled" title="Добавить в корзину" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
+            <CustomButton type="filled" title="Добавить в избранное" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
+            </div>
+            </div>
+          </motion.div>
 
-          <motion.div className="filtertabs-container" {...slideAnimation("up")}>
+          <motion.div ref={tabRef} className="filtertabs-container" {...slideAnimation("up")}>
             {FilterTabs.map((tab) => (
               <Tab
                 key={tab.name}
@@ -178,21 +191,15 @@ function Customizer() {
                 isActiveTab={activeFilterTab[tab.name]}
                 handleClick={() => {
                   handleActiveFilterTab(tab.name);
+                  //console.log("activeEditorLogoTab", activeEditorLogoTab);
                   setActiveEditorLogoTab(tab.name);
+                  // setActiveEditorLogoTab("");
+                  // console.log("activeEditorLogoTab2", activeEditorLogoTab);
                 }}
               />
             ))}
             {generateLogoTabContent()}
           </motion.div>
-          <motion.div className="absolute z-10 top-5 right-5" {...fadeAnimation}>
-            <CustomButton
-              type="filled"
-              title="Добавить в корзину"
-              handleClick={() => {}}
-              customStyles="w-fit px-4 py-2.5 font-bold text-sm"
-            />
-          </motion.div>
-
           <motion.div className="clothtabs-container" {...slideAnimation("up")}>
             {ClothTabs.map((tab) => (
               <Tab key={tab.name} tab={tab} isClothTab isActiveTab={tab.name === snap.cloth} handleClick={() => handleActiveClothTab(tab.name)} />

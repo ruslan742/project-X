@@ -6,9 +6,11 @@ const state = proxy({
   cloth: "sock",
   intro: false,
   color: "#EFBD48",
-  isLogoTexture: true,
+  isLogoTexture: false,
   isFullTexture: false,
   logoDecal: "./threejs.png",
+ 
+
   fullDecal: "./kosmos.png",
 });
 export default state;
