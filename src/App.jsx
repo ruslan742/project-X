@@ -1,25 +1,51 @@
 import Footer from "./components/Footer";
 import Gallery from "./components/Gallery";
+import Layout from "./components/Layout";
 import NameOfStore from "./components/NameOfStore";
 import Navbar from "./components/Navbar";
-// import Canvas from "./canvas";
+// import ProtectedRoute from "./components/hoc/ProtectedRoute";
 import Customizer from "./pages/Customizer";
-
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const App = () => {
-  return (
-    <main className="bg-black">
-      <Navbar />
-      {/* <NameOfStore /> */}
-      {/* <Gallery /> */}
-      {/* <Test />          
-      <Footer /> */}
-      {/* <Home /> */}
-      {/* <Canvas /> */}
-      <Customizer />
-      {/* <Model /> */}
-    </main>
-  );
+  const router = createBrowserRouter([
+    {
+      element: <Layout />, //user={user} logoutHandler={logoutHandler}
+      children: [
+        {
+          path: "/",
+          element: <NameOfStore />,
+        },
+        {
+          path: '/gallery',
+          element: <Gallery  />,//user={user}
+        },
+        {
+          path: '/constructor',
+          element: <Customizer  />,//user={user}
+        },
+        // {
+        //   path: '/account',
+        //   element: <ProtectedRoute isAllowed={!!user} redirect="/login"><AccountPage /></ProtectedRoute>,
+        // },
+        // {
+        //   element: <ProtectedRoute isAllowed={!user} />,
+        //   children: [
+        //     {
+        //       path: '/signup',
+        //       element: <SignUpPage signUpHandler={signUpHandler} />,
+        //     },
+        //     {
+        //       path: '/login',
+        //       element: <LoginPage loginHandler={loginHandler} />,
+        //     },
+        //   ],
+        // },
+      ],
+    },
+  ]);
+  return <RouterProvider router={router} />;
+
 };
 
 export default App;

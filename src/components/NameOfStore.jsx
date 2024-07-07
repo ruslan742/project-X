@@ -2,14 +2,15 @@ import * as THREE from "three";
 import React, { Suspense, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
+import { Loader } from "./Loader";
 
 export default function NameOfStore() {
   return (
-    <section className=" h-[60vh] bg-black ">
-      <Canvas concurrent gl={{ alpha: false }} pixelRatio={[1, 1.5]} camera={{ position: [0, 0, 100], fov: 55 }}>
+    <section className=" h-[60vh] bg-black mb-36">
+      <Canvas concurrent="true" gl={{ alpha: false }} pixelratio={[1, 1.5]} camera={{ position: [0, 0, 100], fov: 55 }}>
         <color attach="background" args={["black"]} />
         <fog attach="fog" args={["black", 15, 20]} />
-        <Suspense fallback={null}>
+        <Suspense fallback={<Loader />}>
           <group position={[0, -1, 0]}>
             <VideoText position={[0, 1.3, 7]} />
           </group>
@@ -35,7 +36,7 @@ function VideoText(props) {
     <Text font="/fonts/Inter-Bold.woff" textAlign="center" fontSize={3} letterSpacing={-0.06} {...props}>
       {"Cyber \n Closet "}
       <meshBasicMaterial toneMapped={false}>
-        <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} />
+        <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} repeat={[1, 1]} centerVideo />
       </meshBasicMaterial>
     </Text>
   );

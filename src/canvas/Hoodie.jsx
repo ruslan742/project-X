@@ -10,25 +10,17 @@ const Hoodie = () => {
   const { nodes, materials } = useGLTF("/models/hoodie.glb");
   const logoTexture = useTexture(snap.logoDecal);
   const fullTexture = useTexture(snap.fullDecal);
+  // useFrame((state, delta) => {
+  //   easing.dampC(materials["FABRIC 3_FRONT_1850.003"].map,  fullTexture , 0.25, delta);
+  // });
   useFrame((state, delta) => easing.dampC(materials["FABRIC 3_FRONT_1850.003"].color, snap.color, 0.25, delta));
   const stateString = JSON.stringify(snap);
 
   return (
     <group key={stateString}>
       <mesh castShadow geometry={nodes.Hoodie.geometry} material={materials["FABRIC 3_FRONT_1850.003"]} material-roughness={1} dispose={null}>
-        {snap.isFullTexture && (
-          <Decal position={[0, 150, 0]} rotation={[0, 0, 0]} scale={135} map={fullTexture} depthTest={true} depthWrite={true} /> 
-        )}
-        {snap.isLogoTexture && (
-          <Decal
-            position={[0, 140, 4]}
-            rotation={[0, 0, 0]}
-            scale={28}
-            map={logoTexture}
-            depthTest={false}
-            depthWrite={true}
-          />
-        )}
+        {snap.isFullTexture && <Decal position={[0, 130, 0]} rotation={[0, 0, 0]} scale={130} map={fullTexture} depthTest={true} depthWrite={true} />}
+        {snap.isLogoTexture && <Decal position={[0, 140, 4]} rotation={[0, 0, 0]} scale={28} map={logoTexture} depthTest={false} depthWrite={true} />}
       </mesh>
     </group>
   );

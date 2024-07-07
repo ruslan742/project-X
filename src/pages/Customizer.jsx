@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
-import { fadeAnimation, slideAnimation } from "../config/motion";
+import { slideAnimation } from "../config/motion";
 import { reader } from "../config/helpers";
 import { ColorPicker, CustomButton, FilePicker, Tab } from "../components";
 import { ClothTabs, DecalTypes, EditorTabs, FilterTabs } from "../config/constants";
@@ -14,6 +14,7 @@ import Sock from "../canvas/Sock";
 import CameraRig from "../canvas/CameraRig";
 import LogoPicker from "../components/LogoPicker";
 import TexturePicker from "../components/TexturePicker";
+import { Loader } from "../components/Loader";
 
 function Customizer() {
   const tabRef = useRef(null);
@@ -164,7 +165,7 @@ function Customizer() {
               </div>
             </div>
           </motion.div>
-          <motion.div key="custom" className="absolute top-0 right-10 z-10" {...slideAnimation("right")}>
+          <motion.div key="buttons" className="absolute top-0 right-10 z-10" {...slideAnimation("right")}>
             <div className="flex items-center min-h-screen">
               <div className="buttontabs-container ">
                 <CustomButton type="filled" title="Добавить в корзину" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />

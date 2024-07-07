@@ -10,13 +10,13 @@ const CameraRig = ({ children }) => {
     const isBreakpoint = window.innerWidth <= 1260;
     const isMobile = window.innerWidth <= 600;
     let targetPosition = [snap.clothxScale, snap.clothyScale, 2 * snap.clothzScale];
-    if (snap.intro) {
-      if (isBreakpoint) targetPosition = [snap.clothxScale, snap.clothyScale, 2 * snap.clothzScale]; 
-      if (isMobile) targetPosition = [snap.clothxScale, snap.clothyScale, 2.5 * snap.clothzScale];
-    } else {
-      if (isMobile) targetPosition = [snap.clothxScale, snap.clothyScale, 2.5 * snap.clothzScale];
-      else targetPosition = [snap.clothxScale, snap.clothyScale, 2 * snap.clothzScale];
-    }
+    // if (snap.intro) {
+    //   if (isBreakpoint) targetPosition = [snap.clothxScale, snap.clothyScale, 2 * snap.clothzScale];
+    //   if (isMobile) targetPosition = [snap.clothxScale, snap.clothyScale,snap.cloth === "sock" ? 110: 2.5 * snap.clothzScale];
+    // } else {
+    if (isMobile) targetPosition = [snap.clothxScale, snap.clothyScale, snap.cloth === "sock" ? 2 * snap.clothzScale : 2.5 * snap.clothzScale];
+    else targetPosition = [snap.clothxScale, snap.clothyScale, 2 * snap.clothzScale];
+    // }
     easing.damp3(state.camera.position, targetPosition, 0.25, delta);
     easing.dampE(group.current.rotation, [state.pointer.y / (snap.cloth === "sock" ? 50 : 5), -state.pointer.x, 0], 0.25, delta);
   });

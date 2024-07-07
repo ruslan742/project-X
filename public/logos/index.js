@@ -10,8 +10,12 @@ import reactjs from "./reactjs.png";
 import redux from "./redux.png";
 import tailwind from "./tailwind.png";
 import typescript from "./typescript.png";
+import pesec from "./pesec.png";
+import tiger from "./tiger.png";
+import whale from "./whale.png";
+import whaletext from "./whale+text.png";
 
 
 
 
-export { css,docker,figma,git,html,javascript,mongodb,nodejs,reactjs,redux,tailwind,typescript};
+export { css,docker,figma,git,html,javascript,mongodb,nodejs,reactjs,redux,tailwind,typescript,pesec,tiger,whale,whaletext};

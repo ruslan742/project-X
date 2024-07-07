@@ -1,16 +1,17 @@
 import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@react-three/drei";
 import { useRoute, useLocation } from "wouter";
 import { easing } from "maath";
 import getUuid from "uuid-by-string";
+import { Loader } from "./Loader";
 
 const GOLDENRATIO = 1.61803398875;
 //const pexel = (id) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
 const images = [
   // Front
-  { position: [0, 0, 1.5], rotation: [0, 0, 0], url: "./pesec.png" },
+  // { position: [0, 0, 1.5], rotation: [0, 0, 0], url: "./pesec.png" },
   // Back
   //   { position: [-0.8, 0, -0.6], rotation: [0, 0, 0], url: './threejs2.png' },
   //   { position: [0.8, 0, -0.6], rotation: [0, 0, 0], url: './threejs3.png' },
@@ -30,6 +31,7 @@ const Gallery = () => (
     <Canvas dpr={[1, 1.5]} camera={{ fov: 70, position: [0, 2, 15] }}>
       <color attach="background" args={["#191920"]} />
       <fog attach="fog" args={["#191920", 0, 15]} />
+      <Suspense fallback={<Loader/>}>
       <group position={[0, -0.5, 0]}>
         <Frames images={images} />
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
@@ -49,6 +51,7 @@ const Gallery = () => (
         </mesh>
       </group>
       <Environment preset="city" />
+      </Suspense>
     </Canvas>
   </section>
 );

@@ -1,5 +1,5 @@
 import { swatch, fileIcon, ai, logoShirt, stylishShirt, logoSock, logoHoodie, logoShirt2 } from "../../public/assets";
-import { css, docker, figma, git, html, javascript, mongodb, nodejs, reactjs, redux, tailwind, typescript } from "../../public/logos";
+import { css, docker, figma, git, html, javascript, mongodb, nodejs, reactjs, redux, tailwind, typescript, whaletext } from "../../public/logos";
 import { texture1, texture2, texture3, texture4, texture5, texture6, texture7, texture8, texture9, texture10 } from "../../public/textures";
 
 export const Textures = [
@@ -92,6 +92,10 @@ export const Logos = [
   {
     name: "typescript",
     image: typescript,
+  },
+  {
+    name: "whale+text",
+    image: whaletext,
   },
 ];
 export const EditorTabs = [

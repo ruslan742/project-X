@@ -5,14 +5,16 @@ import state from "../store";
 import { useFrame } from "@react-three/fiber";
 import { easing } from "maath";
 import { Logos, Textures } from "../config/constants";
+import * as THREE from "three";
 
 const Sock = () => {
   const snap = useSnapshot(state);
   const { nodes, materials } = useGLTF("/models/sock.glb");
   const logoTexture = useTexture(snap.logoDecal);
   const fullTexture = useTexture(snap.fullDecal);
-  const logosTransformed = Logos.map((el) => useTexture(el.image));
-  const TexturesTransformed = Textures.map((el) => useTexture(el.image));
+  // fullTexture.colorSpace = THREE.SRGBColorSpace;
+  // const logosTransformed = Logos.map((el) => useTexture(el.image));
+  // const TexturesTransformed = Textures.map((el) => useTexture(el.image));
   useFrame((state, delta) => easing.dampC(materials["Material.002"].color, snap.color, 0.25, delta));
   const stateString = JSON.stringify(snap);
 

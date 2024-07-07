@@ -1,4 +1,5 @@
 import React from "react";
+import * as THREE from "three";
 import { useSnapshot } from "valtio";
 import { Decal, useGLTF, useTexture } from "@react-three/drei";
 import state from "../store";
