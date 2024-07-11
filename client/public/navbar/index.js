@@ -1,8 +1,9 @@
 import constructor from "./constructor.png";
 import gallery from "./gallery.png";
-import like from "./like.png";
+import robot from "./robot.png";
+import card from "./card.png";
 
 
 
 
-export { constructor,gallery,like };
+export { constructor, gallery, robot, card };
