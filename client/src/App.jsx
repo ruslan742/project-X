@@ -5,6 +5,7 @@ import NameOfStore from "./components/pages/NameOfStore";
 // import Navbar from "./components/Navbar";
 // import ProtectedRoute from "./components/hoc/ProtectedRoute";
 import Customizer from "./components/pages/Customizer";
+import PaymentPage from "./components/pages/PaymentPage";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const App = () => {
@@ -17,12 +18,16 @@ const App = () => {
           element: <NameOfStore />,
         },
         {
-          path: '/gallery',
-          element: <Gallery  />,//user={user}
+          path: "/gallery",
+          element: <Gallery />, //user={user}
         },
         {
-          path: '/constructor',
-          element: <Customizer  />,//user={user}
+          path: "/constructor",
+          element: <Customizer />, //user={user}
+        },
+        {
+          path: "/payment",
+          element: <PaymentPage />,
         },
         // {
         //   path: '/account',
