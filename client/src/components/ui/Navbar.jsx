@@ -1,5 +1,6 @@
 import { cybercloset } from "../../../public/assets";
 import { constructor, gallery, like } from "../../../public/navbar";
+import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Navbar, MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
@@ -13,22 +14,43 @@ export default function NavbarDefault() {
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="flex items-center gap-x-2 p-1 font-medium"
+      >
         <img src={gallery} alt="cybercloset" width={28} height={36} />
         <NavLink to="/gallery" className="flex items-center">
           Галерея
         </NavLink>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1">
+      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1  ">
         <img src={constructor} alt="cybercloset" width={28} height={36} />
         <NavLink to="/constructor" className="flex items-center">
           Конструктор
         </NavLink>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
-        <img src={like} alt="cybercloset" width={28} height={36} />
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="flex items-center gap-x-2 p-1 font-medium"
+      >
+        <img src={robot} alt="cybercloset" width={28} height={36} />
         <NavLink to="/favorites" className="flex items-center">
-          Избранное
+          Личный кабинет
+        </NavLink>
+      </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="flex items-center gap-x-2 p-1 font-medium"
+      >
+        <img src={card} alt="cybercloset" width={28} height={36} />
+        <NavLink to="/payment" className="flex items-center">
+          Оплата
         </NavLink>
       </Typography>
     </ul>
