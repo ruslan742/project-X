@@ -1,5 +1,5 @@
 import React from "react";
-import { footerLinks } from "../config/constants";
+import { footerLinks } from "../../config/constants";
 
 export default function Footer() {
   return (

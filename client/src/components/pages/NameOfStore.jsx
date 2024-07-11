@@ -2,7 +2,7 @@ import * as THREE from "three";
 import React, { Suspense, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
-import { Loader } from "./Loader";
+import { Loader } from "../../HOC/Loader";
 
 export default function NameOfStore() {
   return (

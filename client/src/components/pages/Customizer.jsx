@@ -1,20 +1,20 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { Suspense, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
-import { slideAnimation } from "../config/motion";
-import { reader } from "../config/helpers";
-import { ColorPicker, CustomButton, FilePicker, Tab } from "../components";
-import { ClothTabs, DecalTypes, EditorTabs, FilterTabs } from "../config/constants";
-import state from "../store";
+import { slideAnimation } from "../../config/motion";
+import { reader } from "../../config/helpers";
+import { ColorPicker, CustomButton, FilePicker, Tab } from "..";
+import { ClothTabs, DecalTypes, EditorTabs, FilterTabs } from "../../config/constants";
+import state from "../../store";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
-import Shirt from "../canvas/Shirt";
-import Hoodie from "../canvas/Hoodie";
-import Sock from "../canvas/Sock";
-import CameraRig from "../canvas/CameraRig";
-import LogoPicker from "../components/LogoPicker";
-import TexturePicker from "../components/TexturePicker";
-import { Loader } from "../components/Loader";
+import Shirt from "../../canvas/Shirt";
+import Hoodie from "../../canvas/Hoodie";
+import Sock from "../../canvas/Sock";
+import CameraRig from "../../canvas/CameraRig";
+import LogoPicker from "../models/LogoPicker";
+import TexturePicker from "../models/TexturePicker";
+import { Loader } from "../../HOC/Loader";
 
 function Customizer() {
   const tabRef = useRef(null);

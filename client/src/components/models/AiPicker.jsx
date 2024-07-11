@@ -1,5 +1,5 @@
 import React from "react";
-import CustomButton from "./CustomButton";
+import CustomButton from "../ui/CustomButton";
 
 const AiPicker = ({ prompt, setPrompt, generatingImg, handleSubmit }) => {
   return (

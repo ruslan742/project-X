@@ -1,10 +1,10 @@
-import Footer from "./components/Footer";
-import Gallery from "./components/Gallery";
+// import Footer from "./components/Footer";
+import Gallery from "./components/pages/Gallery";
 import Layout from "./components/Layout";
-import NameOfStore from "./components/NameOfStore";
-import Navbar from "./components/Navbar";
+import NameOfStore from "./components/pages/NameOfStore";
+// import Navbar from "./components/Navbar";
 // import ProtectedRoute from "./components/hoc/ProtectedRoute";
-import Customizer from "./pages/Customizer";
+import Customizer from "./components/pages/Customizer";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 const App = () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./ui/Navbar";
+import Footer from "./ui/Footer";
 //{ user, logoutHandler }
 //user={user} logoutHandler={logoutHandler}
 export default function Layout() {

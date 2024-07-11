@@ -5,7 +5,7 @@ import { useCursor, MeshReflectorMaterial, Image, Text, Environment } from "@rea
 import { useRoute, useLocation } from "wouter";
 import { easing } from "maath";
 import getUuid from "uuid-by-string";
-import { Loader } from "./Loader";
+import { Loader } from "../../HOC/Loader";
 
 const GOLDENRATIO = 1.61803398875;
 //const pexel = (id) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
@@ -16,9 +16,9 @@ const images = [
   //   { position: [-0.8, 0, -0.6], rotation: [0, 0, 0], url: './threejs2.png' },
   //   { position: [0.8, 0, -0.6], rotation: [0, 0, 0], url: './threejs3.png' },
   //   // Left
-  //   { position: [-1.75, 0, 0.25], rotation: [0, Math.PI / 2.5, 0], url: './threejs4.png' },
-  //   { position: [-2.15, 0, 1.5], rotation: [0, Math.PI / 2.5, 0], url: '/threejs5.png' },
-  //   { position: [-2, 0, 2.75], rotation: [0, Math.PI / 2.5, 0], url: './threejs 6.png' },
+  { position: [-1.75, 0, 0.25], rotation: [0, Math.PI / 2.5, 0], url: "./gallery/gal1.png" },
+  // { position: [-2.15, 0, 1.5], rotation: [0, Math.PI / 2.5, 0], url: '/threejs5.png' },
+  // { position: [-2, 0, 2.75], rotation: [0, Math.PI / 2.5, 0], url: './threejs 6.png' },
   //   // Right
   //   { position: [1.75, 0, 0.25], rotation: [0, -Math.PI / 2.5, 0], url: './threejs7.png' },
   //   { position: [2.15, 0, 1.5], rotation: [0, -Math.PI / 2.5, 0], url: './threejs8.png' },
@@ -26,31 +26,29 @@ const images = [
 ];
 const Gallery = () => (
   <section className="w-full nav-height bg-black relative ">
-
-
     <Canvas dpr={[1, 1.5]} camera={{ fov: 70, position: [0, 2, 15] }}>
       <color attach="background" args={["#191920"]} />
       <fog attach="fog" args={["#191920", 0, 15]} />
-      <Suspense fallback={<Loader/>}>
-      <group position={[0, -0.5, 0]}>
-        <Frames images={images} />
-        <mesh rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[50, 50]} />
-          <MeshReflectorMaterial
-            blur={[300, 100]}
-            resolution={2048}
-            mixBlur={1}
-            mixStrength={80}
-            roughness={1}
-            depthScale={1.2}
-            minDepthThreshold={0.4}
-            maxDepthThreshold={1.4}
-            color="#050505"
-            metalness={0.5}
-          />
-        </mesh>
-      </group>
-      <Environment preset="city" />
+      <Suspense fallback={<Loader />}>
+        <group position={[0, -0.5, 0]}>
+          <Frames images={images} />
+          <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[50, 50]} />
+            <MeshReflectorMaterial
+              blur={[300, 100]}
+              resolution={2048}
+              mixBlur={1}
+              mixStrength={80}
+              roughness={1}
+              depthScale={1.2}
+              minDepthThreshold={0.4}
+              maxDepthThreshold={1.4}
+              color="#050505"
+              metalness={0.5}
+            />
+          </mesh>
+        </group>
+        <Environment preset="city" />
       </Suspense>
     </Canvas>
   </section>
@@ -118,9 +116,9 @@ function Frame({ url, c = new THREE.Color(), ...props }) {
         </mesh>
         <Image raycast={() => null} ref={image} position={[0, 0, 0.7]} url={url} />
       </mesh>
-      <Text maxWidth={0.1} anchorX="left" anchorY="top" position={[0.55, GOLDENRATIO, 0]} fontSize={0.025}>
+      {/* <Text maxWidth={0.1} anchorX="left" anchorY="top" position={[0.55, GOLDENRATIO, 0]} fontSize={0.025}>
         {name.split("-").join(" ")}
-      </Text>
+      </Text> */}
     </group>
   );
 }
