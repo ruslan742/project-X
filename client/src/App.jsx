@@ -1,18 +1,25 @@
-// import Footer from "./components/Footer";
-import Gallery from "./components/pages/Gallery";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Layout from "./components/Layout";
 import NameOfStore from "./components/pages/NameOfStore";
-// import Navbar from "./components/Navbar";
-// import ProtectedRoute from "./components/hoc/ProtectedRoute";
+import Gallery from "./components/pages/Gallery";
 import Customizer from "./components/pages/Customizer";
+
+import SignIn from "./auth/SingIn";
+import SignUp from "./auth/SignUp";
 import PaymentPage from "./components/pages/PaymentPage";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 
 const App = () => {
   const router = createBrowserRouter([
     {
-      element: <Layout />, //user={user} logoutHandler={logoutHandler}
+      element: <Layout />,
       children: [
+
+
+        { path: "/signin", element: <SignIn /> },
+        { path: "/signup", element: <SignUp /> },
+
         {
           path: "/",
           element: <NameOfStore />,
@@ -29,28 +36,12 @@ const App = () => {
           path: "/payment",
           element: <PaymentPage />,
         },
-        // {
-        //   path: '/account',
-        //   element: <ProtectedRoute isAllowed={!!user} redirect="/login"><AccountPage /></ProtectedRoute>,
-        // },
-        // {
-        //   element: <ProtectedRoute isAllowed={!user} />,
-        //   children: [
-        //     {
-        //       path: '/signup',
-        //       element: <SignUpPage signUpHandler={signUpHandler} />,
-        //     },
-        //     {
-        //       path: '/login',
-        //       element: <LoginPage loginHandler={loginHandler} />,
-        //     },
-        //   ],
-        // },
+   
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
 
+  return <RouterProvider router={router} />;
 };
 
 export default App;
