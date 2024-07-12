@@ -1,5 +1,5 @@
 import { cybercloset } from "../../../public/assets";
-import { constructor, gallery, like } from "../../../public/navbar";
+import { constructor, gallery, robot, card } from "../../../public/navbar";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import React from "react";
