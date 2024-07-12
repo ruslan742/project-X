@@ -7,7 +7,6 @@ import Customizer from "./components/pages/Customizer";
 import SignIn from "./auth/SingIn";
 import SignUp from "./auth/SignUp";
 import PaymentPage from "./components/pages/PaymentPage";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 
 const App = () => {
