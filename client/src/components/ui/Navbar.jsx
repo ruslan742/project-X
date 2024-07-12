@@ -1,6 +1,6 @@
 // import React from "react";
 import { cybercloset } from "../../../public/assets";
-import { constructor, gallery, robot, card } from "../../../public/navbar";
+import { lego, gallery, robot, card, cart } from "../../../public/navbar";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 // import { navLists } from "../../src/config/constants";
@@ -56,7 +56,7 @@ export default function NavbarDefault() {
         color="blue-gray"
         className="flex items-center gap-x-2 p-1  "
       >
-        <img src={constructor} alt="cybercloset" width={28} height={36} />
+        <img src={lego} alt="cybercloset" width={28} height={36} />
         <NavLink to="/constructor" className="flex items-center">
           Конструктор
         </NavLink>
@@ -83,6 +83,18 @@ export default function NavbarDefault() {
           Оплата
         </NavLink>
       </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="flex items-center gap-x-2 p-1 font-medium"
+      >
+        <img src={cart} alt="cybercloset" width={28} height={36} />
+        <NavLink to="/payment" className="flex items-center">
+          Корзина
+        </NavLink>
+      </Typography>
+
       {/* <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
         <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -120,7 +132,7 @@ export default function NavbarDefault() {
           ripple={false}
           onClick={() => setOpenNav(!openNav)}
         >
-          {openNav ? (
+          {/* {openNav ? (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -128,7 +140,7 @@ export default function NavbarDefault() {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-          )}
+          )} */}
         </IconButton>
       </div>
       <MobileNav open={openNav}>
