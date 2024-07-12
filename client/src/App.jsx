@@ -14,10 +14,24 @@ const App = () => {
       children: [
         { path: "/signin", element: <SignIn /> },
         { path: "/signup", element: <SignUp /> },
-        { path: "/", element: <NameOfStore /> },
-        { path: "/gallery", element: <Gallery /> },
-        { path: "/constructor", element: <Customizer /> },
-        { path: "/payment", element: <PaymentPage /> },
+
+        {
+          path: "/",
+          element: <NameOfStore />,
+        },
+        {
+          path: "/gallery",
+          element: <Gallery />, //user={user}
+        },
+        {
+          path: "/constructor",
+          element: <Customizer />, //user={user}
+        },
+        {
+          path: "/payment",
+          element: <PaymentPage />,
+        },
+   
       ],
     },
   ]);
