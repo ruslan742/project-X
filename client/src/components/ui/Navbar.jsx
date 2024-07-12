@@ -10,6 +10,8 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
+// import { useStateContext } from "../context/StateContext";
+import Cart from "./Bascet";
 
 export default function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -73,10 +75,15 @@ export default function NavbarDefault() {
         color="blue-gray"
         className="flex items-center gap-x-2 p-1 font-medium"
       >
-        <img src={cart} alt="cybercloset" width={28} height={36} />
-        <NavLink to="/payment" className="flex items-center">
-          Корзина
-        </NavLink>
+        <img
+          src={cart}
+          alt="cybercloset"
+          width={28}
+          height={36}
+          // onClick={() => setShowCart(true)}
+        />
+        <span className="cart-item-qty">totalQuantities</span>
+        
       </Typography>
     </ul>
   );
@@ -147,6 +154,7 @@ export default function NavbarDefault() {
           </div>
         </div>
       </MobileNav>
+      {/* <Cart /> */}
     </Navbar>
   );
 }
