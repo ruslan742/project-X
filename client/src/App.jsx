@@ -3,11 +3,9 @@ import Layout from "./components/Layout";
 import NameOfStore from "./components/pages/NameOfStore";
 import Gallery from "./components/pages/Gallery";
 import Customizer from "./components/pages/Customizer";
-
 import SignIn from "./auth/SingIn";
 import SignUp from "./auth/SignUp";
 import PaymentPage from "./components/pages/PaymentPage";
-
 
 const App = () => {
   const router = createBrowserRouter([
@@ -33,6 +31,7 @@ const App = () => {
           path: "/payment",
           element: <PaymentPage />,
         },
+   
       ],
     },
   ]);
