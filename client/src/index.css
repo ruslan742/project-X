@@ -109,7 +109,7 @@ input[type="file"] {
   display: none !important;
 }
 body {
-  color: white;
+  color: black;
   width: 100dvw;
   overflow-x: hidden;
   height: 100%;

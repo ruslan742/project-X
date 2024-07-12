@@ -1,31 +1,7 @@
-// import React from "react";
 import { cybercloset } from "../../../public/assets";
 import { lego, gallery, robot, card, cart } from "../../../public/navbar";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-// import { navLists } from "../../src/config/constants";
-
-// export default function Navbar() {
-//   return (
-//     <header className="w-full py-5 sm:px-18 px-5 flex justify-between items-center">
-//       <nav className="flex w-full screen-max-width items-center">
-//         <img src={cybercloset} alt="cybercloset" width={56} height={72} />
-//         <div className="flex flex-1 justify-center max-sm:hidden">
-//           {navLists.map((nav, i) => (
-//             <div key={nav}  className="px-5 text-xl   cursor-pointer text-gray hover:text-white transition-all ">
-//               {nav}
-//             </div>
-//           ))}
-//         </div>
-//         <div className="flex items-baseline gap-7 max-sm:justify-end max-sm:flex-1">
-//           {/* <img src={searchImg} alt="search" width={18} height={18} />
-//           <img src={bagImg} alt="bag" width={18} height={18} /> */}
-//           <div className="px-5 text-xl   cursor-pointer text-gray hover:text-white transition-all ">{"Зарегистрироваться"}</div>
-//         </div>
-//       </nav>
-//     </header>
-//   );
-// }
 import React from "react";
 import { Navbar, MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
 
@@ -45,7 +21,6 @@ export default function NavbarDefault() {
         className="flex items-center gap-x-2 p-1 font-medium"
       >
         <img src={gallery} alt="cybercloset" width={28} height={36} />
-
         <NavLink to="/gallery" className="flex items-center">
           Галерея
         </NavLink>
@@ -119,12 +94,16 @@ export default function NavbarDefault() {
         </NavLink>
         <div className="hidden lg:block">{navList}</div>
         <div className="flex items-center gap-x-1">
-          <Button variant="text" size="sm" className="hidden lg:inline-block text-lg">
-            <span>Войти</span>
-          </Button>
-          <Button variant="gradient" size="sm" className="hidden lg:inline-block text-lg">
-            <span>Зарегестрироваться</span>
-          </Button>
+          <NavLink to="/signin">
+            <Button variant="text" size="sm" className="hidden lg:inline-block text-lg">
+              <span>Войти</span>
+            </Button>
+          </NavLink>
+          <NavLink to="/signup">
+            <Button variant="gradient" size="sm" className="hidden lg:inline-block text-lg">
+              <span>Зарегистрироваться</span>
+            </Button>
+          </NavLink>
         </div>
         <IconButton
           variant="text"
@@ -147,12 +126,16 @@ export default function NavbarDefault() {
         <div className="container mx-auto">
           {navList}
           <div className="flex items-center gap-x-1">
-            <Button fullWidth variant="text" size="sm" className="text-lg">
-              <span>Зарегестрироваться</span>
-            </Button>
-            <Button fullWidth variant="gradient" size="sm" className="text-lg">
-              <span>Войти</span>
-            </Button>
+            <NavLink to="/signin">
+              <Button fullWidth variant="text" size="sm" className="text-lg">
+                <span>Войти</span>
+              </Button>
+            </NavLink>
+            <NavLink to="/signup">
+              <Button fullWidth variant="gradient" size="sm" className="text-lg">
+                <span>Зарегистрироваться</span>
+              </Button>
+            </NavLink>
           </div>
         </div>
       </MobileNav>
