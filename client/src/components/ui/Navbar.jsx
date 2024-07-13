@@ -2,10 +2,16 @@ import { cybercloset } from "../../../public/assets";
 import { lego, gallery, robot, card, cart } from "../../../public/navbar";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { Navbar, MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../auth/firebase";
+import React from "react";
+import {
+  Navbar,
+  MobileNav,
+  Typography,
+  Button,
+  IconButton,
+} from "@material-tailwind/react";
+// import { useStateContext } from "../context/StateContext";
+import Cart from "./Bascet";
 
 export default function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -54,11 +60,21 @@ export default function NavbarDefault() {
           Оплата
         </NavLink>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
-        <img src={cart} alt="cybercloset" width={28} height={36} />
-        <NavLink to="/payment" className="flex items-center">
-          Корзина
-        </NavLink>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="flex items-center gap-x-2 p-1 font-medium"
+      >
+        <img
+          src={cart}
+          alt="cybercloset"
+          width={28}
+          height={36}
+          // onClick={() => setShowCart(true)}
+        />
+        <span className="cart-item-qty">totalQuantities</span>
+        
       </Typography>
     </ul>
   );
@@ -116,6 +132,7 @@ export default function NavbarDefault() {
           </div>
         </div>
       </MobileNav>
+      {/* <Cart /> */}
     </Navbar>
   );
 }
