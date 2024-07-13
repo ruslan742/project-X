@@ -15,6 +15,7 @@ const state = proxy({
   setShowCart: 0,
   toggleCartItemQuanitity:true,
   onRemove:false,
+  qty:1
 });
 export default state;
 

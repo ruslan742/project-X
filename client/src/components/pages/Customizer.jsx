@@ -14,6 +14,7 @@ import Sock from "../../canvas/Sock";
 import CameraRig from "../../canvas/CameraRig";
 import LogoPicker from "../models/LogoPicker";
 import TexturePicker from "../models/TexturePicker";
+import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { Loader } from "../../HOC/Loader";
 
 function Customizer() {
@@ -135,6 +136,14 @@ function Customizer() {
       setActiveEditorTab("");
     });
   };
+  // количество товаров для добавления:
+  const incQty = () => {
+    state.qty++
+  }
+
+  const decQty = () => {
+   state.qty--
+  }
 
   return (
     <section className="app">
@@ -166,6 +175,14 @@ function Customizer() {
             </div>
           </motion.div>
           <motion.div key="buttons" className="absolute top-0 right-10 z-10" {...slideAnimation("right")}>
+          <div className="quantity">
+            <h3 className="text-white">Quantity:</h3>
+            <p className="quantity-desc">
+              <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
+              <span className="num">{snap.qty}</span>
+              <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
+            </p>
+          </div>
             <div className="flex items-center min-h-screen">
               <div className="buttontabs-container ">
                 <CustomButton type="filled" title="Добавить в корзину" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />

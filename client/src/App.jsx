@@ -30,8 +30,9 @@ const App = () => {
         },
         {
           path: "/payment",
-          element: <PayPage />,
+          element: <PayPage/>,
         },
+   
       ],
     },
   ]);

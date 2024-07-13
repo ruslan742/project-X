@@ -3,35 +3,15 @@ import { lego, gallery, robot, card, cart } from "../../../public/navbar";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import React from "react";
-import {
-  Navbar,
-  MobileNav,
-  Typography,
-  Button,
-  IconButton,
-} from "@material-tailwind/react";
+import { Navbar, MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
 // import { useStateContext } from "../context/StateContext";
-import Cart from "./Bascet";
+// import Cart from "./Bascet";
 
 export default function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
     window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
-  }, []);
-  const [authUser, setAuthUset] = useState(null);
-  useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUset(user);
-        console.log("user", user);
-      } else {
-        setAuthUset(null);
-      }
-    });
-    return () => {
-      listen();
-    };
   }, []);
 
   const navList = (
@@ -60,12 +40,7 @@ export default function NavbarDefault() {
           Оплата
         </NavLink>
       </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="flex items-center gap-x-2 p-1 font-medium"
-      >
+      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
         <img
           src={cart}
           alt="cybercloset"
@@ -73,14 +48,13 @@ export default function NavbarDefault() {
           height={36}
           // onClick={() => setShowCart(true)}
         />
-        <span className="cart-item-qty">totalQuantities</span>
-        
+        {/* <span className="cart-item-qty">totalQuantities</span> */}
       </Typography>
     </ul>
   );
 
   return (
-    <Navbar className="mx-auto max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4 shadow-none border-none">
+    <Navbar className="mx-auto max-w-screen-xl px-4 py-2 lg:px-8 lg:py-4 shadow-none border-none bg-black">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <NavLink to="/" className="flex items-center">
           <img src={cybercloset} alt="cybercloset" width={56} height={72} />
@@ -88,7 +62,7 @@ export default function NavbarDefault() {
         <div className="hidden lg:block">{navList}</div>
         <div className="flex items-center gap-x-1">
           <NavLink to="/signin">
-            <Button variant="text" size="sm" className="hidden lg:inline-block text-lg">
+            <Button variant="gradient" size="sm" className="hidden lg:inline-block text-lg">
               <span>Войти</span>
             </Button>
           </NavLink>
@@ -104,7 +78,7 @@ export default function NavbarDefault() {
           ripple={false}
           onClick={() => setOpenNav(!openNav)}
         >
-          {/* {openNav ? (
+          {openNav ? (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -112,7 +86,7 @@ export default function NavbarDefault() {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-          )} */}
+          )}
         </IconButton>
       </div>
       <MobileNav open={openNav}>
@@ -120,7 +94,7 @@ export default function NavbarDefault() {
           {navList}
           <div className="flex items-center gap-x-1">
             <NavLink to="/signin">
-              <Button fullWidth variant="text" size="sm" className="text-lg">
+              <Button fullWidth variant="gradient" size="sm" className="text-lg">
                 <span>Войти</span>
               </Button>
             </NavLink>
