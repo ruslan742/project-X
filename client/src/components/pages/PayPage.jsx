@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react';
-import SectionWrapper from '../hoc/SectionWrapper';
-import { slideIn } from '../utils/motion';
-import { EarthCanvas } from './canvas';
-import { styles } from '../styles';
+import SectionWrapper from '../../HOC/SectionWrapper';
+import { slideIn } from '../../utils/motion';
+import  EarthCanvas  from '../../canvas/Earth';
+import { styles } from '../../styles';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import StarsCanvas from '../../canvas/Stars';
+// import Payment from '../ui/Payment';
 //template_7zasq57
 //service_06ydlko
 //v8tfH1PqmqX4ZRrxq
@@ -46,6 +48,7 @@ const Contact = () => {
     alert('Something went wrong.')});
   };
   return (
+    <>
     <div className="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
       <motion.div
         variants={slideIn('left', 'tween', 0.2, 1)}
@@ -105,6 +108,9 @@ const Contact = () => {
         <EarthCanvas />
       </motion.div>
     </div>
+    <StarsCanvas/>
+    
+    </>
   );
 };
 
