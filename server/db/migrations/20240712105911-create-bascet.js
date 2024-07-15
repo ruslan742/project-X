@@ -12,6 +12,21 @@ module.exports = {
       cloth: {
         type: Sequelize.STRING
       },
+      color: {
+        type: Sequelize.STRING
+      },
+      logo: {
+        type: Sequelize.STRING
+      },
+      texture: {
+        type: Sequelize.STRING
+      },
+      quantity: {
+        type: Sequelize.STRING
+      },
+      price: {
+        type: Sequelize.STRING
+      },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
