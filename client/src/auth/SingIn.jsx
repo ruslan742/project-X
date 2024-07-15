@@ -2,18 +2,19 @@ import { useState } from "react";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "./firebase";
 import { toast } from 'react-toastify';
-
+import state from "../store";
+import { useSnapshot } from "valtio";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const snap = useSnapshot(state);
   const logIn = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((user) => {
-        console.log(user);
-        setEmail("");
-        setPassword("");
+        
+        state.email = email;
+        
         toast.success("Login successful!");
       })
       .catch((error) => {

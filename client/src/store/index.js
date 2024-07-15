@@ -1,5 +1,8 @@
 import { proxy } from "valtio";
 const state = proxy({
+  email:null,
+  userName:'',
+  
   clothzScale: 455, // 115 1
   clothyScale: 140,
   clothxScale: 105,
@@ -11,10 +14,13 @@ const state = proxy({
   fullDecal: "./textures/1.jpg",
   totalPrice: 0,
   totalQuantities: 0,
-  cartItems: 0,
-  setShowCart: 0,
+  cartItems: [],
+  showCart: false,
   toggleCartItemQuanitity:true,
   onRemove:false,
+  qty:1,
+  price:100,
+  
 });
 export default state;
 

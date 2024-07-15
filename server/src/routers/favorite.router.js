@@ -1,8 +1,10 @@
-const { Favorite } = require('../db/models');
+const express = require('express');
+const { Favorite } = require('../../db/models');
 const checkId = require('../middlewares/checkId');
 const checkFields = require('../middlewares/checkFields');
+const { Router } = require('express');
 
-const router = Router();
+const router = express.Router();
 
 router
   .route('/')

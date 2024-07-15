@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const bascetRouter = require('./routers/bascet.router');
 const favoriteRouter = require('./routers/favorite.router');
-// const authRouter = require('./routes/authRouter');
+ const authRouter = require('./routers/auth.router');
 // const tokensRouter = require('./routes/tokensRouter');
 
 const app = express();
@@ -18,5 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/bascet', bascetRouter);
 app.use('/api/favorite', favoriteRouter);
-// app.use('/api/auth', authRouter);
+app.use('/api/auth', authRouter);
 // app.use('/api/tokens', tokensRouter);
+module.exports = app;
