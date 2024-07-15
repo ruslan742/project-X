@@ -13,7 +13,7 @@ import Gallery from './components/pages/Gallery';
 import Customizer from './components/pages/Customizer';
 import SignIn from './auth/SingIn';
 import SignUp from './auth/SignUp';
-import PaymentPage from './components/pages/PaymentPage';
+// import PaymentPage from './components/pages/PaymentPage';
 import PayPage from './components/pages/PayPage';
 import Favourites from './components/pages/Favourites';
 
@@ -35,7 +35,7 @@ const App = () => {
     });
 
     try {
-      axios.get('api/cart/').then(({ data }) => {
+      axios.get('api/bascet/').then(({ data }) => {
         const items = data.map((element) => ({ ...JSON.parse(element.product), id: element.id }));
         state.cartItems = items;
       });
