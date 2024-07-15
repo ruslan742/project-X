@@ -5,8 +5,8 @@ const cookieParser = require('cookie-parser');
 
 const bascetRouter = require('./routers/bascet.router');
 const favoriteRouter = require('./routers/favorite.router');
- const authRouter = require('./routers/auth.router');
- const dalleRouter = require('./routers/dalle.router');
+const authRouter = require('./routers/auth.router');
+const dalleRouter = require('./routers/dalle.router');
 // const tokensRouter = require('./routes/tokensRouter');
 
 const app = express();
