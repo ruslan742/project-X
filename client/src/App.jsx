@@ -1,72 +1,73 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Layout from "./components/Layout";
-import NameOfStore from "./components/pages/NameOfStore";
-import Gallery from "./components/pages/Gallery";
-import Customizer from "./components/pages/Customizer";
-import SignIn from "./auth/SingIn";
-import SignUp from "./auth/SignUp";
-import PaymentPage from "./components/pages/PaymentPage";
-import PayPage from "./components/pages/PayPage";
-// import state from "./store";
-import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./auth/firebase";
-// import { auth } from "./components/firebase";
-import state from "../src/store";
-import { useSnapshot } from "valtio";
-import axios from "axios";
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './auth/firebase';
+import state from './store';
+import { useSnapshot } from 'valtio';
+import axios from 'axios';
+import { doc, getDoc } from 'firebase/firestore';
+import Layout from './components/Layout';
+import NameOfStore from './components/pages/NameOfStore';
+import Gallery from './components/pages/Gallery';
+import Customizer from './components/pages/Customizer';
+import SignIn from './auth/SingIn';
+import SignUp from './auth/SignUp';
+import PaymentPage from './components/pages/PaymentPage';
+import PayPage from './components/pages/PayPage';
+import Favourites from './components/pages/Favourites';
 
 const App = () => {
   const snap = useSnapshot(state);
+
   useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const { email } = user;
         state.email = email;
+
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          state.userName = userData.userName || '';
+        }
       }
     });
 
     try {
-      axios.get("api/bascet/").then(({data})=>{
-        console.log(data)
-        const items=data.map((element)=>({...JSON.parse(element.cloth),id:element.id}))
-        console.log('items',items)
-        state.cartItems=items
+      axios.get('api/cart/').then(({ data }) => {
+        const items = data.map((element) => ({ ...JSON.parse(element.product), id: element.id }));
+        state.cartItems = items;
       });
     } catch (error) {
-      alert(error.response.data.message || "Oops!");
+      alert(error.response.data.message || 'Oops!');
     }
 
+    return () => unsubscribe();
   }, []);
 
-  const router = createBrowserRouter([
-    {
-      element: <Layout />,
-      children: [
-        { path: "/signin", element: <SignIn /> },
-        { path: "/signup", element: <SignUp /> },
+  const isAuthenticated = () => {
+    return !!snap.email; 
+  };
 
-        {
-          path: "/",
-          element: <NameOfStore />,
-        },
-        {
-          path: "/gallery",
-          element: <Gallery />, //user={user}
-        },
-        {
-          path: "/constructor",
-          element: <Customizer />, //user={user}
-        },
-        {
-          path: "/payment",
-          element: <PayPage />,
-        },
-      ],
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
+  return (
+    <Router>
+      <div>
+        <Toaster /> 
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<NameOfStore />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/constructor" element={<Customizer />} />
+            <Route path="/favourites" element={isAuthenticated() ? <Favourites /> : <Navigate to="/signin" />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/payment" element={isAuthenticated() ? <PayPage /> : <Navigate to="/signin" />} />
+          </Route>
+        </Routes>
+      </div>
+    </Router>
+  );
 };
 
 export default App;
