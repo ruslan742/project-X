@@ -17,7 +17,12 @@ module.exports = (sequelize, DataTypes) => {
   Bascet.init(
     {
       userId: DataTypes.INTEGER,
-      cloth: DataTypes.TEXT,
+      cloth: DataTypes.STRING,
+      color: DataTypes.STRING,
+      logo: DataTypes.STRING,
+      texture: DataTypes.STRING,
+      quantity: DataTypes.STRING,
+      price: DataTypes.STRING,
     },
     {
       sequelize,
