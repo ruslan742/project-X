@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import StarsCanvas from "../../canvas/Stars";
 import Payment from "../ui/Payment";
+import Datepicker from "../ui/Datepicker";
+
 // import Payment from '../ui/Payment';
 //template_7zasq57
 //service_06ydlko
@@ -62,60 +64,9 @@ const Contact = () => {
           {/* <p className={styles.sectionSubText}>Get in touch</p> */}
           <h3 className={styles.sectionHeadText}>Payment.</h3>
           <div className="flex flex-col">
-            <div className="mt-6 grow sm:mt-8 lg:mt-0">
-              <div className="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
-                <div className="space-y-2">
-                  <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Original price</dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">$6,592.00</dd>
-                  </dl>
-
-                  <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
-                    <dd className="text-base font-medium text-green-500">-$299.00</dd>
-                  </dl>
-
-                  <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">$99</dd>
-                  </dl>
-
-                  <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">$799</dd>
-                  </dl>
-                </div>
-
-                <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                  <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                  <dd className="text-base font-bold text-gray-900 dark:text-white">$7,191.00</dd>
-                </dl>
-              </div>
-
-              <div className="mt-6 flex items-center justify-center gap-8">
-                <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg" alt="" />
-                <img
-                  className="hidden h-8 w-auto dark:flex"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal-dark.svg"
-                  alt=""
-                />
-                <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
-                <img
-                  className="hidden h-8 w-auto dark:flex"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg"
-                  alt=""
-                />
-                <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard.svg" alt="" />
-                <img
-                  className="hidden h-8 w-auto dark:flex"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard-dark.svg"
-                  alt=""
-                />
-              </div>
-            </div>
             <form
               action="#"
-              className="w-full rounded-lg border mt-5 border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 lg:max-w-xl lg:p-8"
+              className="w-full rounded-lg border mt-5 mb-5 border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 lg:max-w-xl lg:p-8"
             >
               <div className="mb-6 grid grid-cols-2 gap-4">
                 <div className="col-span-2 sm:col-span-1">
@@ -169,7 +120,7 @@ const Contact = () => {
                         />
                       </svg>
                     </div>
-                    <input
+                    {/* <input
                       datepicker
                       datepicker-format="mm/yy"
                       id="card-expiration-input"
@@ -177,7 +128,9 @@ const Contact = () => {
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-9 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                       placeholder="12/23"
                       required
-                    />
+                    /> */}
+
+                    <Datepicker />
                   </div>
                 </div>
                 <div>
@@ -223,11 +176,62 @@ const Contact = () => {
                 Pay now
               </button>
             </form>
+            <div className="mt-6 grow sm:mt-8 lg:mt-0">
+              <div className="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
+                <div className="space-y-2">
+                  <dl className="flex items-center justify-between gap-4">
+                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Original price</dt>
+                    <dd className="text-base font-medium text-gray-900 dark:text-white">$6,592.00</dd>
+                  </dl>
+
+                  <dl className="flex items-center justify-between gap-4">
+                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
+                    <dd className="text-base font-medium text-green-500">-$299.00</dd>
+                  </dl>
+
+                  <dl className="flex items-center justify-between gap-4">
+                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
+                    <dd className="text-base font-medium text-gray-900 dark:text-white">$99</dd>
+                  </dl>
+
+                  <dl className="flex items-center justify-between gap-4">
+                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
+                    <dd className="text-base font-medium text-gray-900 dark:text-white">$799</dd>
+                  </dl>
+                </div>
+
+                <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                  <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                  <dd className="text-base font-bold text-gray-900 dark:text-white">$7,191.00</dd>
+                </dl>
+              </div>
+
+              <div className="mt-6 flex items-center justify-center gap-8">
+                <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg" alt="" />
+                <img
+                  className="hidden h-8 w-auto dark:flex"
+                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal-dark.svg"
+                  alt=""
+                />
+                <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
+                <img
+                  className="hidden h-8 w-auto dark:flex"
+                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg"
+                  alt=""
+                />
+                <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard.svg" alt="" />
+                <img
+                  className="hidden h-8 w-auto dark:flex"
+                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard-dark.svg"
+                  alt=""
+                />
+              </div>
+            </div>
           </div>
         </motion.div>
         <motion.div className="flex flex-col mt-9" variants={slideIn("right", "tween", 0.2, 1)}>
           <h3 className={styles.sectionHeadText}>Worldwide delivery.</h3>
-          <motion.div  className=" xl:flex-1 xl:h-auto md:h-[550px] h-[350px]">
+          <motion.div className=" xl:flex-1 xl:h-auto md:h-[550px] h-[350px]">
             <EarthCanvas />
           </motion.div>
         </motion.div>

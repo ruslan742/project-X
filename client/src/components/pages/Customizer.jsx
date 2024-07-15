@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 import { slideAnimation } from "../../config/motion";
 import { reader } from "../../config/helpers";
@@ -14,8 +14,10 @@ import Sock from "../../canvas/Sock";
 import CameraRig from "../../canvas/CameraRig";
 import LogoPicker from "../models/LogoPicker";
 import TexturePicker from "../models/TexturePicker";
-import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import { Loader } from "../../HOC/Loader";
+// import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from "react-icons/ai";
+// import { Loader } from "../../HOC/Loader";
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
 function Customizer() {
   const tabRef = useRef(null);
@@ -29,6 +31,11 @@ function Customizer() {
     logoShirt: false,
     stylishShirt: false,
   });
+  useEffect(() => {
+    state.price =
+      ((snap.cloth === "sock" ? 100 : snap.cloth === "shirt" ? 500 : 1000) + (snap.isFullTexture ? 300 : 0) + (snap.isLogoTexture ? 200 : 0)) *
+      snap.qty;
+  }, [snap.cloth, snap.isFullTexture, snap.isLogoTexture, snap.qty]);
 
   const generateTabContent = () => {
     switch (activeEditorTab) {
@@ -136,14 +143,52 @@ function Customizer() {
       setActiveEditorTab("");
     });
   };
-  // количество товаров для добавления:
+  // функции связанные с добавлением в корзину:
   const incQty = () => {
-    state.qty++
-  }
+    state.qty++;
+  };
 
   const decQty = () => {
-   state.qty--
-  }
+    if (snap.qty !== 1) state.qty--;
+  };
+
+  const onAdd = async (product, quantity) => {
+    const productKeys = Object.keys(product);
+    const filteredProductKeys = productKeys.filter((key) => key !== "quantity");
+
+    const checkProductInCart = snap.cartItems.find((item) => {
+      return filteredProductKeys.every((key) => product[key] === item[key]);
+    });
+
+    state.totalPrice = snap.totalPrice + snap.price;
+    //setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
+
+    if (checkProductInCart) {
+      const updatedCartItems = snap.cartItems.map((cartProduct) => {
+        if (cartProduct.id === product.id)
+          return {
+            ...cartProduct,
+            quantity: cartProduct.quantity + quantity,
+          };
+      });
+      state.cartItems=updatedCartItems
+      console.log('cartitems',snap.cartItems)
+      //setCartItems(updatedCartItems);
+    } else {
+      state.cartItems=[...snap.cartItems,product]
+      console.log('cartitems',snap.cartItems)
+      // product.quantity = quantity;
+
+      // setCartItems([...cartItems, { ...product }]);
+    }
+    console.log(snap.cartItems);
+    toast.success(`Item added to the cart.`);
+    try {
+      await axios.post('api/bascet', {usermail:snap.email,cloth:JSON.stringify(product)});
+   } catch (error) {
+     alert(error.response.data.message || 'Oops!');
+   }
+  };
 
   return (
     <section className="app">
@@ -174,18 +219,69 @@ function Customizer() {
               </div>
             </div>
           </motion.div>
-          <motion.div key="buttons" className="absolute top-0 right-10 z-10" {...slideAnimation("right")}>
-          <div className="quantity">
-            <h3 className="text-white">Quantity:</h3>
-            <p className="quantity-desc">
-              <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
-              <span className="num">{snap.qty}</span>
-              <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
-            </p>
-          </div>
+          <motion.div key="buttons" className="flex flex-col items-center absolute top-0 right-10 z-10" {...slideAnimation("right")}>
             <div className="flex items-center min-h-screen">
               <div className="buttontabs-container ">
-                <CustomButton type="filled" title="Добавить в корзину" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
+                <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${snap.price}</div>
+                <form className="max-w-xs mx-auto">
+                  <label for="quantity-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Choose quantity:
+                  </label>
+                  <div className="relative flex items-center max-w-[8rem]">
+                    <button
+                      type="button"
+                      id="decrement-button"
+                      data-input-counter-decrement="quantity-input"
+                      onClick={decQty}
+                      className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                    >
+                      <svg
+                        className="w-3 h-3 text-gray-900 dark:text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 18 2"
+                      >
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                      </svg>
+                    </button>
+                    <input
+                      type="text"
+                      id="quantity-input"
+                      data-input-counter
+                      value={snap.qty}
+                      aria-describedby="helper-text-explanation"
+                      className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="1"
+                      required
+                    />
+                    <button
+                      type="button"
+                      id="increment-button"
+                      data-input-counter-increment="quantity-input"
+                      onClick={incQty}
+                      className="bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none"
+                    >
+                      <svg
+                        className="w-3 h-3 text-gray-900 dark:text-white"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 18 18"
+                      >
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </form>
+                <CustomButton
+                  type="filled"
+                  title="Добавить в корзину"
+                  handleClick={() =>
+                    onAdd({ cloth: snap.cloth, color: snap.color, logo: (snap.isLogoTexture?snap.logoDecal:null), texture:( snap.isFullTexture?snap.fullDecal:null), quantity: snap.qty,price:snap.price }, snap.qty)
+                  }
+                  customStyles="w-fit px-4 py-2.5 font-bold text-sm"
+                />
                 <CustomButton type="filled" title="Добавить в избранное" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
               </div>
             </div>

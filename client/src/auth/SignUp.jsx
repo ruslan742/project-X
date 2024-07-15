@@ -1,27 +1,35 @@
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import state from "../store";
+import { useSnapshot } from "valtio";
+import axios from 'axios';
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const snap = useSnapshot(state);
 
-  const register = (e) => {
+  const register = async (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
       .then((user) => {
-        console.log(user);
-        setUsername("");
-        setEmail("");
-        setPassword("");
+        state.email = email;
+
         toast.success("Registration successful!");
       })
       .catch((error) => {
         console.log(error);
         toast.error("Registration failed!");
       });
+
+      try {
+         await axios.post('api/auth/signup', {email:email,username:'hardcode'});
+      } catch (error) {
+        alert(error.response.data.message || 'Oops!');
+      }
   };
 
   return (
@@ -29,7 +37,9 @@ const SignUp = () => {
       <h1 className="text-2xl font-bold mb-6 text-center">Registration Form</h1>
       <form onSubmit={register} className="w-full max-w-sm mx-auto bg-w p-8 rounded-md shadow-md">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+            Username
+          </label>
           <input
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -41,7 +51,9 @@ const SignUp = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            Email
+          </label>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -53,7 +65,9 @@ const SignUp = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            Password
+          </label>
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}

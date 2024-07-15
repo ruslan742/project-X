@@ -3,8 +3,12 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Text } from "@react-three/drei";
 import { Loader } from "../../HOC/Loader";
+import state from "../../store/";
+import { useSnapshot } from "valtio";
+
 
 export default function NameOfStore() {
+  
   return (
     <section className=" h-[60vh] bg-black mb-36">
       <Canvas concurrent="true" gl={{ alpha: false }} pixelratio={[1, 1.5]} camera={{ position: [0, 0, 100], fov: 55 }}>
@@ -28,13 +32,14 @@ export default function NameOfStore() {
 }
 
 function VideoText(props) {
+  const snap = useSnapshot(state);
   const [video] = useState(() =>
     Object.assign(document.createElement("video"), { src: "/videos/bladeRunner.mp4", crossOrigin: "Anonymous", loop: true, muted: true })
   );
   useEffect(() => void video.play(), [video]);
   return (
     <Text font="/fonts/Inter-Bold.woff" textAlign="center" fontSize={3} letterSpacing={-0.06} {...props}>
-      {"Cyber \n Closet "}
+      {snap.email===null?"Cyber \n Closet ":snap.email}
       <meshBasicMaterial toneMapped={false}>
         <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} repeat={[1, 1]} centerVideo />
       </meshBasicMaterial>

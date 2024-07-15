@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import { Navbar, MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
+import state from "../../store";
+import Cart from "./Bascet";
+import { useSnapshot } from "valtio";
 // import { useStateContext } from "../context/StateContext";
 // import Cart from "./Bascet";
 
 export default function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
-
+  const snap = useSnapshot(state);
   React.useEffect(() => {
     window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
   }, []);
@@ -40,14 +43,9 @@ export default function NavbarDefault() {
           Оплата
         </NavLink>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
-        <img
-          src={cart}
-          alt="cybercloset"
-          width={28}
-          height={36}
-          // onClick={() => setShowCart(true)}
-        />
+      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium cursor-pointer">
+        <img src={cart} alt="cybercloset" width={28} height={36} onClick={() => (state.showCart = true)} />
+
         {/* <span className="cart-item-qty">totalQuantities</span> */}
       </Typography>
     </ul>
@@ -106,7 +104,7 @@ export default function NavbarDefault() {
           </div>
         </div>
       </MobileNav>
-      {/* <Cart /> */}
+      {snap.showCart && <Cart />}
     </Navbar>
   );
 }
