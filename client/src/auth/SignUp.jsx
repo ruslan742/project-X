@@ -1,35 +1,35 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 import { toast } from "react-toastify";
 import state from "../store";
-import { useSnapshot } from "valtio";
 import axios from 'axios';
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const snap = useSnapshot(state);
 
   const register = async (e) => {
     e.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((user) => {
-        state.email = email;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      state.email = email;
+      
+      toast.success("Registration successful!");
+      // Redirect to home page after successful registration
+      window.location.href = '/';
+    } catch (error) {
+      console.log(error);
+      toast.error("Registration failed!");
+    }
 
-        toast.success("Registration successful!");
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Registration failed!");
-      });
-
-      try {
-         await axios.post('api/auth/signup', {email:email,username:'hardcode'});
-      } catch (error) {
-        alert(error.response.data.message || 'Oops!');
-      }
+    try {
+      await axios.post('api/auth/signup', { email: email, username: username });
+    } catch (error) {
+      alert(error.response.data.message || 'Oops!');
+    }
   };
 
   return (

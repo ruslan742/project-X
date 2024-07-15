@@ -19,15 +19,16 @@ router
   })
   .post(async (req, res) => {
     try {
-      const { usermail, cloth } = req.body;
+      const { usermail } = req.body;
+      console.log('=====>',usermail);
       const user = await User.findOne({ where: { email: usermail } });
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
       await Bascet.create({
+        ...req.body,
         userId: user.id,
-        cloth: cloth,
       });
       // return res.json(newBascet);
     } catch (error) {

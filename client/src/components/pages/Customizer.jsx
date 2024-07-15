@@ -3,13 +3,8 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useSnapshot } from "valtio";
 import { slideAnimation } from "../../config/motion";
 import { reader } from "../../config/helpers";
-import { ColorPicker, CustomButton, FilePicker, Tab } from "..";
-import {
-  ClothTabs,
-  DecalTypes,
-  EditorTabs,
-  FilterTabs,
-} from "../../config/constants";
+import { AiPicker, ColorPicker, CustomButton, FilePicker, Tab } from "..";
+import { ClothTabs, DecalTypes, EditorTabs, FilterTabs } from "../../config/constants";
 import state from "../../store";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
@@ -19,6 +14,9 @@ import Sock from "../../canvas/Sock";
 import CameraRig from "../../canvas/CameraRig";
 import LogoPicker from "../models/LogoPicker";
 import TexturePicker from "../models/TexturePicker";
+import OpenAI from "openai";
+// import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from "react-icons/ai";
+// import { Loader } from "../../HOC/Loader";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
@@ -49,14 +47,7 @@ function Customizer() {
       case "filepicker":
         return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
       case "aipicker":
-        return (
-          <AIPicker
-            prompt={prompt}
-            setPrompt={setPrompt}
-            generatingImg={generatingImg}
-            handleSubmit={handleSubmit}
-          />
-        );
+        return <AiPicker prompt={prompt} setPrompt={setPrompt} generatingImg={generatingImg} handleSubmit={handleSubmit} />;
       default:
         return null;
     }
@@ -121,6 +112,31 @@ function Customizer() {
       setActiveEditorTab("");
     }
   };
+  // const handleSubmit = async (type) => {
+  //   const openai = new OpenAI();
+  //   const image = await openai.images.generate({ model: "dall-e-3", prompt: "A cute baby sea otter" });
+  //   console.log("image", image);
+  //   // if (!prompt) return alert("Please enter a propmt");
+  //   // try {
+  //   //   setGeneratingImg(true);
+  //   //   const response = await fetch("https://api.openai.com/v1/images/generations", {
+  //   //     method: "POST",
+  //   //     headers: {
+  //   //       "Content-Type": "application/json",
+  //   //     },
+  //   //     body: JSON.stringify({
+  //   //       prompt,
+  //   //     }),
+  //   //   });
+  //   //   const data = await response.json();
+  //   //   handleDecals(type, `data:image/png;base64,${data.photo}`);
+  //   // } catch (error) {
+  //   //   alert(error);
+  //   // } finally {
+  //   //   setGeneratingImg(false);
+  //   //   setActiveEditorTab("");
+  //   // }
+  // };
   const handleDecals = (type, result) => {
     const decalType = DecalTypes[type];
     state[decalType.stateProperty] = result;
@@ -184,17 +200,18 @@ function Customizer() {
       });
       state.cartItems = updatedCartItems;
       console.log("cartitems", snap.cartItems);
+      //setCartItems(updatedCartItems);
     } else {
       state.cartItems = [...snap.cartItems, product];
       console.log("cartitems", snap.cartItems);
+      // product.quantity = quantity;
+
+      // setCartItems([...cartItems, { ...product }]);
     }
     console.log(snap.cartItems);
     toast.success(`Item added to the cart.`);
     try {
-      await axios.post("api/bascet", {
-        usermail: snap.email,
-        cloth: JSON.stringify(product),
-      });
+      await axios.post("api/bascet", { usermail: snap.email, cloth: JSON.stringify(product) });
     } catch (error) {
       alert(error.response.data.message || "Oops!");
     }

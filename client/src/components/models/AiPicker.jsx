@@ -4,7 +4,7 @@ import CustomButton from "../ui/CustomButton";
 const AiPicker = ({ prompt, setPrompt, generatingImg, handleSubmit }) => {
   return (
     <div className="aipicker-container">
-      <textarea className="aipicker-textarea" placeholder="Ask AI..." rows={5} value={prompt} onChange={() => setPrompt(e.target.value)} />
+      <textarea className="aipicker-textarea" placeholder="Ask AI..." rows={5} value={prompt} onChange={(e) => setPrompt(e.target.value)} />
       <div className="flex flex-wrap gap-3">
         {generatingImg ? (
           <CustomButton type="outline" title="Asking AI..." customStyles="text-xs" />

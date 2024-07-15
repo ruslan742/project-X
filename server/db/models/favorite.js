@@ -16,8 +16,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Favorite.init(
     {
-      usermail: DataTypes.STRING,
+      userId: DataTypes.INTEGER,
       cloth: DataTypes.STRING,
+      color: DataTypes.STRING,
+      logo: DataTypes.STRING,
+      texture: DataTypes.STRING,
+      quantity: DataTypes.STRING,
+      price: DataTypes.STRING,
     },
     {
       sequelize,
