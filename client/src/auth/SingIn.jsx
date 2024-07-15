@@ -1,21 +1,21 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "./firebase";
 import { toast } from 'react-toastify';
-import state from "../store";
-import { useSnapshot } from "valtio";
+
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const snap = useSnapshot(state);
+
   const logIn = (e) => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
-      .then((user) => {
-        
-        state.email = email;
-        
+      .then(() => {
+        setEmail("");
+        setPassword("");
         toast.success("Login successful!");
+        // Redirect to home page after successful login
+        window.location.href = '/';
       })
       .catch((error) => {
         console.log(error);
@@ -26,9 +26,10 @@ const SignIn = () => {
   const signInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result.user);
+      .then(() => {
         toast.success("Google login successful!");
+        // Redirect to home page after successful login
+        window.location.href = '/';
       })
       .catch((error) => {
         console.log(error);

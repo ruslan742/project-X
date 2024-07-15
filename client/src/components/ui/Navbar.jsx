@@ -1,21 +1,31 @@
-import { cybercloset } from "../../../public/assets";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { lego, gallery, robot, card, cart } from "../../../public/navbar";
-import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-import React from "react";
-import { Navbar, MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
-import state from "../../store";
+import { Navbar, MobileNav, Typography, Button, IconButton } from '@material-tailwind/react';
+import { useSnapshot } from 'valtio';
+import { signOut } from 'firebase/auth';
+import state from '../../store';
+import { auth } from '../../auth/firebase';
+import { cybercloset } from "../../../public/assets";
 import Cart from "./Bascet";
-import { useSnapshot } from "valtio";
-// import { useStateContext } from "../context/StateContext";
-// import Cart from "./Bascet";
 
 export default function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
   const snap = useSnapshot(state);
+
   React.useEffect(() => {
-    window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
+    window.addEventListener('resize', () => window.innerWidth >= 960 && setOpenNav(false));
   }, []);
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        state.email = null;
+      })
+      .catch((error) => {
+        console.error('Logout failed', error);
+      });
+  };
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -31,23 +41,27 @@ export default function NavbarDefault() {
           Конструктор
         </NavLink>
       </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
-        <img src={robot} alt="cybercloset" width={28} height={36} />
-        <NavLink to="/favorites" className="flex items-center">
-          Личный кабинет
-        </NavLink>
-      </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
-        <img src={card} alt="cybercloset" width={28} height={36} />
-        <NavLink to="/payment" className="flex items-center">
-          Оплата
-        </NavLink>
-      </Typography>
-      <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium cursor-pointer">
-        <img src={cart} alt="cybercloset" width={28} height={36} onClick={() => (state.showCart = true)} />
-
-        {/* <span className="cart-item-qty">totalQuantities</span> */}
-      </Typography>
+      {snap.email && ( 
+        <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
+          <img src={robot} alt="cybercloset" width={28} height={36} />
+          <NavLink to="/favourites" className="flex items-center">
+            Личный кабинет
+          </NavLink>
+        </Typography>
+      )}
+      {snap.email && ( 
+        <>
+          <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium">
+            <img src={card} alt="cybercloset" width={28} height={36} />
+            <NavLink to="/payment" className="flex items-center">
+              Оплата
+            </NavLink>
+          </Typography>
+          <Typography as="li" variant="small" color="blue-gray" className="flex items-center gap-x-2 p-1 font-medium cursor-pointer">
+            <img src={cart} alt="cybercloset" width={28} height={36} onClick={() => (state.showCart = true)} />
+          </Typography>
+        </>
+      )}
     </ul>
   );
 
@@ -59,16 +73,24 @@ export default function NavbarDefault() {
         </NavLink>
         <div className="hidden lg:block">{navList}</div>
         <div className="flex items-center gap-x-1">
-          <NavLink to="/signin">
-            <Button variant="gradient" size="sm" className="hidden lg:inline-block text-lg">
-              <span>Войти</span>
+          {snap.email ? ( 
+            <Button variant="gradient" size="sm" className="hidden lg:inline-block text-lg" onClick={handleLogout}>
+              <span>Выйти</span>
             </Button>
-          </NavLink>
-          <NavLink to="/signup">
-            <Button variant="gradient" size="sm" className="hidden lg:inline-block text-lg">
-              <span>Зарегистрироваться</span>
-            </Button>
-          </NavLink>
+          ) : (
+            <>
+              <NavLink to="/signin">
+                <Button variant="gradient" size="sm" className="hidden lg:inline-block text-lg">
+                  <span>Войти</span>
+                </Button>
+              </NavLink>
+              <NavLink to="/signup">
+                <Button variant="gradient" size="sm" className="hidden lg:inline-block text-lg">
+                  <span>Зарегистрироваться</span>
+                </Button>
+              </NavLink>
+            </>
+          )}
         </div>
         <IconButton
           variant="text"
@@ -91,16 +113,24 @@ export default function NavbarDefault() {
         <div className="container mx-auto">
           {navList}
           <div className="flex items-center gap-x-1">
-            <NavLink to="/signin">
-              <Button fullWidth variant="gradient" size="sm" className="text-lg">
-                <span>Войти</span>
+            {snap.email ? (
+              <Button fullWidth variant="gradient" size="sm" className="text-lg" onClick={handleLogout}>
+                <span>Выйти</span>
               </Button>
-            </NavLink>
-            <NavLink to="/signup">
-              <Button fullWidth variant="gradient" size="sm" className="text-lg">
-                <span>Зарегистрироваться</span>
-              </Button>
-            </NavLink>
+            ) : (
+              <>
+                <NavLink to="/signin">
+                  <Button fullWidth variant="gradient" size="sm" className="text-lg">
+                    <span>Войти</span>
+                  </Button>
+                </NavLink>
+                <NavLink to="/signup">
+                  <Button fullWidth variant="gradient" size="sm" className="text-lg">
+                    <span>Зарегистрироваться</span>
+                  </Button>
+                </NavLink>
+              </>
+            )}
           </div>
         </div>
       </MobileNav>
