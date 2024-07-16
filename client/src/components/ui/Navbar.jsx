@@ -8,6 +8,8 @@ import state from '../../store';
 import { auth } from '../../auth/firebase';
 import { cybercloset } from "../../../public/assets";
 import Cart from "./Bascet";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -21,9 +23,11 @@ export default function NavbarDefault() {
     signOut(auth)
       .then(() => {
         state.email = null;
+        toast.success('You have successfully logged out!');
       })
       .catch((error) => {
         console.error('Logout failed', error);
+        toast.error('Error logging out!');
       });
   };
 

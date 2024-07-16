@@ -14,8 +14,9 @@ const Layout = () => {
       <Toaster />
         <Outlet />
       </main>
-      <Footer />
+      
       <ToastContainer />
+      <Footer />
     </>
   );
 };

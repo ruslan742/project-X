@@ -1,152 +1,162 @@
-import { swatch, fileIcon, ai, logoShirt, stylishShirt, logoSock, logoHoodie, logoShirt2 } from "../../public/assets";
-import { css, docker, figma, git, html, javascript, mongodb, nodejs, reactjs, redux, tailwind, typescript, whaletext } from "../../public/logos";
-import { texture1, texture2, texture3, texture4, texture5, texture6, texture7, texture8, texture9, texture10 } from "../../public/textures";
+import {
+  swatch, fileIcon, ai, logoShirt, stylishShirt, logoSock, logoHoodie, logoShirt2,
+} from '../../public/assets';
+import {
+  css, docker, figma, git, html, javascript, mongodb, nodejs, reactjs, redux, tailwind, typescript, whale, whaletext,
+} from '../../public/logos';
+import {
+  texture1, texture2, texture3, texture4, texture5, texture6, texture7, texture8, texture9, texture10,
+} from '../../public/textures';
 
 export const Textures = [
   {
-    name: "texture1",
+    name: 'texture1',
     image: texture1,
   },
   {
-    name: "texture2",
+    name: 'texture2',
     image: texture2,
   },
   {
-    name: "texture3",
+    name: 'texture3',
     image: texture3,
   },
   {
-    name: "texture4",
+    name: 'texture4',
     image: texture4,
   },
   {
-    name: "texture5",
+    name: 'texture5',
     image: texture5,
   },
   {
-    name: "texture6",
+    name: 'texture6',
     image: texture6,
   },
   {
-    name: "texture7",
+    name: 'texture7',
     image: texture7,
   },
   {
-    name: "texture8",
+    name: 'texture8',
     image: texture8,
   },
   {
-    name: "texture9",
+    name: 'texture9',
     image: texture9,
   },
   {
-    name: "texture10",
+    name: 'texture10',
     image: texture10,
   },
 ];
 export const Logos = [
   {
-    name: "css",
+    name: 'css',
     image: css,
   },
   {
-    name: "docker",
+    name: 'docker',
     image: docker,
   },
   {
-    name: "figma",
+    name: 'figma',
     image: figma,
   },
   {
-    name: "git",
+    name: 'git',
     image: git,
   },
   {
-    name: "html",
+    name: 'html',
     image: html,
   },
   {
-    name: "javascript",
+    name: 'javascript',
     image: javascript,
   },
   {
-    name: "mongodb",
+    name: 'mongodb',
     image: mongodb,
   },
   {
-    name: "nodejs",
+    name: 'nodejs',
     image: nodejs,
   },
   {
-    name: "reactjs",
+    name: 'reactjs',
     image: reactjs,
   },
   {
-    name: "redux",
+    name: 'redux',
     image: redux,
   },
   {
-    name: "tailwind",
+    name: 'tailwind',
     image: tailwind,
   },
   {
-    name: "typescript",
+    name: 'typescript',
     image: typescript,
   },
   {
-    name: "whale+text",
+    name: 'whale+text',
     image: whaletext,
+  },
+  {
+    name: 'whale',
+    image: whale,
   },
 ];
 export const EditorTabs = [
   {
-    name: "colorpicker",
+    name: 'colorpicker',
     icon: swatch,
   },
   {
-    name: "filepicker",
+    name: 'filepicker',
     icon: fileIcon,
   },
   {
-    name: "aipicker",
+    name: 'aipicker',
     icon: ai,
   },
 ];
 
 export const FilterTabs = [
   {
-    name: "logoShirt",
+    name: 'logoShirt',
     icon: logoShirt,
   },
   {
-    name: "stylishShirt",
+    name: 'stylishShirt',
     icon: stylishShirt,
   },
 ];
 export const ClothTabs = [
   {
-    name: "shirt",
+    name: 'shirt',
     icon: logoShirt2,
   },
   {
-    name: "hoodie",
+    name: 'hoodie',
     icon: logoHoodie,
   },
   {
-    name: "sock",
+    name: 'sock',
     icon: logoSock,
   },
 ];
 
 export const DecalTypes = {
   logo: {
-    stateProperty: "logoDecal",
-    filterTab: "logoShirt",
+    stateProperty: 'logoDecal',
+    filterTab: 'logoShirt',
   },
   full: {
-    stateProperty: "fullDecal",
-    filterTab: "stylishShirt",
+    stateProperty: 'fullDecal',
+    filterTab: 'stylishShirt',
   },
 };
-export const footerLinks = ["Privacy Policy", "Terms of Use", "Sales Policy", "Legal", "Site Map"];
-export const navLists = ["Галерея", "Конструктор", "Избранное"];
+export const footerLinks = ['Privacy Policy', 'Terms of Use', 'Sales Policy', 'Legal', 'Site Map'];
+export const navLists = ['Галерея', 'Конструктор', 'Избранное'];
