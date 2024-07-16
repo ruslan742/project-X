@@ -30,16 +30,16 @@ const Favourites = () => {
 
   return (
     <div className="container mx-auto my-10 p-5 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-5">Личный кабинет</h2>
+      <h2 className="text-2xl font-bold mb-5">Profile</h2>
       <div className="mb-5">
         <p>
           <strong>Email:</strong> {snap.email}
         </p>
         <p>
-          <strong>Баланс:</strong> {snap.balance} рублей
+          <strong>Balance:</strong> {snap.balance} $
         </p>
         <p>
-          <strong>Имя:</strong>
+          <strong>Name:</strong>
           {editing ? (
             <input
               type="text"
@@ -55,13 +55,13 @@ const Favourites = () => {
       <div className="flex gap-4">
         <CustomButton
           type="filled"
-          title={editing ? "Сохранить" : "Редактировать профиль"}
+          title={editing ? "Save" : "Edit profile"}
           handleClick={handleEditProfile}
           customStyles="w-full px-4 py-2.5 font-bold text-sm"
         />
         <CustomButton
           type="outline"
-          title="Выйти"
+          title="Logout"
           handleClick={handleLogout}
           customStyles="w-full px-4 py-2.5 font-bold text-sm"
         />
