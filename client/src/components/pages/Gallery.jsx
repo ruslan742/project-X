@@ -11,18 +11,19 @@ const GOLDENRATIO = 1.61803398875;
 //const pexel = (id) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260`
 const images = [
   // Front
-  // { position: [0, 0, 1.5], rotation: [0, 0, 0], url: "./pesec.png" },
+  { position: [0, 0, 1.5], rotation: [0, 0, 0], url: "./gallery/gal10.png"},
   // Back
-  //   { position: [-0.8, 0, -0.6], rotation: [0, 0, 0], url: './threejs2.png' },
-  //   { position: [0.8, 0, -0.6], rotation: [0, 0, 0], url: './threejs3.png' },
+    { position: [-0.8, 0, -0.6], rotation: [0, 0, 0], url: "./gallery/gal9.png"},
+    { position: [0.8, 0, -0.6], rotation: [0, 0, 0], url: "./gallery/gal8.png" },
   //   // Left
   { position: [-1.75, 0, 0.25], rotation: [0, Math.PI / 2.5, 0], url: "./gallery/gal1.png" },
-  // { position: [-2.15, 0, 1.5], rotation: [0, Math.PI / 2.5, 0], url: '/threejs5.png' },
-  // { position: [-2, 0, 2.75], rotation: [0, Math.PI / 2.5, 0], url: './threejs 6.png' },
+
+  { position: [-2.15, 0, 1.5], rotation: [0, Math.PI / 2.5, 0], url: "./gallery/gal5.png" },
+  { position: [-2, 0, 2.75], rotation: [0, Math.PI / 2.5, 0], url: "./gallery/gal3.png" },
   //   // Right
-  //   { position: [1.75, 0, 0.25], rotation: [0, -Math.PI / 2.5, 0], url: './threejs7.png' },
-  //   { position: [2.15, 0, 1.5], rotation: [0, -Math.PI / 2.5, 0], url: './threejs8.png' },
-  //   { position: [2, 0, 2.75], rotation: [0, -Math.PI / 2.5, 0], url: '/threejs9.png' }
+    { position: [1.75, 0, 0.25], rotation: [0, -Math.PI / 2.5, 0], url: "./gallery/gal2.png"  },
+    { position: [2.15, 0, 1.5], rotation: [0, -Math.PI / 2.5, 0], url: "./gallery/gal6.png"  },
+    { position: [2, 0, 2.75], rotation: [0, -Math.PI / 2.5, 0], url: "./gallery/gal7.png"}
 ];
 const Gallery = () => (
   <section className="w-full nav-height bg-black relative ">
@@ -95,7 +96,11 @@ function Frame({ url, c = new THREE.Color(), ...props }) {
   const isActive = params?.id === name;
   useCursor(hovered);
   useFrame((state, dt) => {
-    image.current.material.zoom = 2 + Math.sin(rnd * 10000 + state.clock.elapsedTime / 3) / 2;
+    const maxZoom = 1.3; // Maximum zoom level
+const minZoom = 1; // Minimum zoom level
+const dynamicZoom = (maxZoom + minZoom) / 2 + (Math.sin(rnd * 10000 + state.clock.elapsedTime / 3) * (maxZoom - minZoom)) / 2;
+image.current.material.zoom = dynamicZoom;
+
     easing.damp3(image.current.scale, [0.85 * (!isActive && hovered ? 0.85 : 1), 0.9 * (!isActive && hovered ? 0.905 : 1), 1], 0.1, dt);
     easing.dampC(frame.current.material.color, hovered ? "orange" : "white", 0.1, dt);
   });

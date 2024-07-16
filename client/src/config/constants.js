@@ -2,10 +2,10 @@ import {
   swatch, fileIcon, ai, logoShirt, stylishShirt, logoSock, logoHoodie, logoShirt2,
 } from '../../public/assets';
 import {
-  css, docker, figma, git, html, javascript, mongodb, nodejs, reactjs, redux, tailwind, typescript, whale, whaletext,
+  css, docker, figma, git, html, javascript, mongodb, nodejs, reactjs, redux, tailwind, typescript, whale, whaletext, tigertext, jaytext, pesec, bear
 } from '../../public/logos';
 import {
-  texture1, texture2, texture3, texture4, texture5, texture6, texture7, texture8, texture9, texture10,
+  texture1, texture2, texture3, texture4, texture5, texture6, texture7, texture8, texture9, texture10, texture11, texture12,
 } from '../../public/textures';
 
 export const Textures = [
@@ -48,6 +48,14 @@ export const Textures = [
   {
     name: 'texture10',
     image: texture10,
+  },
+  {
+    name: 'texture11',
+    image: texture11,
+  },
+  {
+    name: 'texture12',
+    image: texture12,
   },
 ];
 export const Logos = [
@@ -106,6 +114,22 @@ export const Logos = [
   {
     name: 'whale',
     image: whale,
+  },
+  {
+    name: 'tigertext',
+    image: tigertext,
+  },
+  {
+    name: 'jaytext',
+    image: jaytext,
+  },
+  {
+    name: 'pesec',
+    image: pesec,
+  },
+  {
+    name: 'bear',
+    image: bear,
   },
 ];
 export const EditorTabs = [
