@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './auth/firebase';
-import state from './store';
-import { useSnapshot } from 'valtio';
-import axios from 'axios';
-import { doc, getDoc } from 'firebase/firestore';
-import Layout from './components/Layout';
-import NameOfStore from './components/pages/NameOfStore';
-import Gallery from './components/pages/Gallery';
-import Customizer from './components/pages/Customizer';
-import SignIn from './auth/SingIn';
-import SignUp from './auth/SignUp';
-// import PaymentPage from './components/pages/PaymentPage';
-import PayPage from './components/pages/PayPage';
-import Favourites from './components/pages/Favourites';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./auth/firebase";
+import state from "./store";
+import { useSnapshot } from "valtio";
+import axios from "axios";
+import { doc, getDoc, enableIndexedDbPersistence } from "firebase/firestore";
+import Layout from "./components/Layout";
+import NameOfStore from "./components/pages/NameOfStore";
+import Gallery from "./components/pages/Gallery";
+import Customizer from "./components/pages/Customizer";
+import SignIn from "./auth/SignIn";
+import SignUp from "./auth/SignUp";
+import PayPage from "./components/pages/PayPage";
+import Favourites from "./components/pages/Favourites";
+import PrivateRoute from "./auth/PrivateRoute";
 
 const App = () => {
   const snap = useSnapshot(state);
@@ -26,43 +26,74 @@ const App = () => {
         const { email } = user;
         state.email = email;
 
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          state.userName = userData.userName || '';
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            state.userName = userData.userName || "";
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error.message);
         }
       }
     });
 
     try {
-      axios.get('api/bascet/').then(({ data }) => {
-        const items = data.map((element) => ({ ...JSON.parse(element.product), id: element.id }));
+      axios.get("/api/bascet/").then(({ data }) => {
+        const items = data.map((element) => ({
+          ...JSON.parse(element.product),
+          id: element.id,
+        }));
         state.cartItems = items;
       });
     } catch (error) {
-      alert(error.response.data.message || 'Oops!');
+      alert(error.response.data.message || "Oops!");
     }
 
     return () => unsubscribe();
   }, []);
 
-  const isAuthenticated = () => {
-    return !!snap.email; 
-  };
-
   return (
     <Router>
       <div>
-        <Toaster /> 
+        <Toaster />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<NameOfStore />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/constructor" element={<Customizer />} />
-            <Route path="/favourites" element={isAuthenticated() ? <Favourites /> : <Navigate to="/signin" />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/payment" element={isAuthenticated() ? <PayPage /> : <Navigate to="/signin" />} />
+            <Route
+              path="/favourites"
+              element={
+                <PrivateRoute isAllowed={!!snap.email} redirect="/signin">
+                  <Favourites />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/signin"
+              element={
+                <PrivateRoute isAllowed={!snap.email} redirect="/">
+                  <SignIn />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PrivateRoute isAllowed={!snap.email} redirect="/">
+                  <SignUp />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/payment"
+              element={
+                <PrivateRoute isAllowed={!!snap.email} redirect="/signin">
+                  <PayPage />
+                </PrivateRoute>
+              }
+            />
           </Route>
         </Routes>
       </div>

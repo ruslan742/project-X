@@ -261,7 +261,7 @@ function Customizer() {
           >
             <div className="flex items-center min-h-screen">
               <div className="buttontabs-container ">
-                <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <div className="block mb-2 text-xl font-medium text-white dark:text-white">
                   ${snap.price}
                 </div>
                 <form className="max-w-xs mx-auto">
@@ -332,7 +332,7 @@ function Customizer() {
                 </form>
                 <CustomButton
                   type="filled"
-                  title="Добавить в корзину"
+                  title="Add to Basket"
                   handleClick={() =>
                     onAdd(
                       {
@@ -346,11 +346,11 @@ function Customizer() {
                       snap.qty
                     )
                   }
-                  customStyles="w-full px-4 py-2.5 font-bold text-sm"
+                  customStyles="mt-4 w-full px-4 py-2.5 font-bold text-sm"
                 />
                 <CustomButton
                   type="filled"
-                  title="Добавить в избранное"
+                  title="Add to favorites"
                   handleClick={() => {}}
                   customStyles="w-full px-4 py-2.5 font-bold text-sm"
                 />
