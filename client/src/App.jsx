@@ -16,6 +16,7 @@ import SignUp from "./auth/SignUp";
 import PayPage from "./components/pages/PayPage";
 import Favourites from "./components/pages/Favourites";
 import PrivateRoute from "./auth/PrivateRoute";
+import ErrorPage from "./components/pages/ErrorPage"; // Импортируем новый компонент
 
 const App = () => {
   const snap = useSnapshot(state);
@@ -94,6 +95,8 @@ const App = () => {
                 </PrivateRoute>
               }
             />
+            <Route path="*" element={<ErrorPage />} />{" "}
+            {/* Добавляем этот маршрут */}
           </Route>
         </Routes>
       </div>
