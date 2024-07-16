@@ -14,6 +14,8 @@ import state from "../../store";
 import { auth } from "../../auth/firebase";
 import { cybercloset } from "../../../public/assets";
 import Cart from "./Bascet";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function NavbarDefault() {
   const [openNav, setOpenNav] = React.useState(false);
