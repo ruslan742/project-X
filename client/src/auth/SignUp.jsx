@@ -17,11 +17,7 @@ const SignUp = () => {
   const register = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       state.email = email;
       state.userName = username;
@@ -37,36 +33,14 @@ const SignUp = () => {
       console.log(error);
       toast.error("Registration failed!");
     }
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((user) => {
-        state.email = email;
-
-        toast.success("Registration successful!");
-      })
-      .catch((error) => {
-        // //console.log(error);
-        toast.error("Registration failed!");
-      });
-
-    try {
-      await axios.post("api/auth/signup", { email: email, username: "hardcode" });
-    } catch (error) {
-      alert(error.response.data.message || "Oops!");
-    }
   };
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6 text-center">Registration Form</h1>
-      <form
-        onSubmit={register}
-        className="w-full max-w-sm mx-auto bg-w p-8 rounded-md shadow-md"
-      >
+      <form onSubmit={register} className="w-full max-w-sm mx-auto bg-w p-8 rounded-md shadow-md">
         <div className="mb-4">
-          <label
-            className="block text-red-600 text-lg font-bold mb-2"
-            htmlFor="username"
-          >
+          <label className="block text-red-600 text-lg font-bold mb-2" htmlFor="username">
             Username:
           </label>
           <input
@@ -80,10 +54,7 @@ const SignUp = () => {
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-red-600 text-lg font-bold mb-2"
-            htmlFor="email"
-          >
+          <label className="block text-red-600 text-lg font-bold mb-2" htmlFor="email">
             Email:
           </label>
           <input
@@ -97,10 +68,7 @@ const SignUp = () => {
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-red-600 text-lg font-bold mb-2"
-            htmlFor="password"
-          >
+          <label className="block text-red-600 text-lg font-bold mb-2" htmlFor="password">
             Password:
           </label>
           <input
