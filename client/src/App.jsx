@@ -5,7 +5,7 @@ import Gallery from "./components/pages/Gallery";
 import Customizer from "./components/pages/Customizer";
 import SignIn from "./auth/SingIn";
 import SignUp from "./auth/SignUp";
-import PaymentPage from "./components/pages/PaymentPage";
+// import PaymentPage from "./components/pages/PaymentPage";
 import PayPage from "./components/pages/PayPage";
 // import state from "./store";
 import { useEffect } from "react";
@@ -15,6 +15,7 @@ import { auth } from "./auth/firebase";
 import state from "../src/store";
 import { useSnapshot } from "valtio";
 import axios from "axios";
+import Account from "./components/pages/Account";
 
 const App = () => {
   const snap = useSnapshot(state);
@@ -27,17 +28,34 @@ const App = () => {
     });
 
     try {
-      axios.get("api/bascet/").then(({data})=>{
-        console.log(data)
-        const items=data.map((element)=>({...JSON.parse(element.cloth),id:element.id}))
-        console.log('items',items)
-        state.cartItems=items
-      });
+      const userMail = snap.email;
+      if (userMail) {
+       
+        axios.get(`api/bascet/${userMail}`).then(({ data }) => {
+          state.cartItems = data;
+          state.totalQuantities = state.cartItems.reduce((acc, el) => {
+            return acc + Number(el.quantity);
+          }, 0);
+          state.totalPrice = state.cartItems.reduce((acc, el) => {
+            return acc + Number(el.price);
+          }, 0);
+        });
+      }
     } catch (error) {
       alert(error.response.data.message || "Oops!");
     }
-
-  }, []);
+    ////console.log('nachalo',snap.cartItems)
+    // try {
+    //   axios.get(`api/bascet/:${}`).then(({data})=>{
+    //     //console.log(data)
+    //     //const items=data.map((element)=>({...element}))
+    //     ////console.log('items',items)
+    //     state.cartItems=data
+    //   });
+    // } catch (error) {
+    //   alert(error.response.data.message || "Oops!");
+    // }
+  }, [snap.email]);
 
   const router = createBrowserRouter([
     {
@@ -57,6 +75,10 @@ const App = () => {
         {
           path: "/constructor",
           element: <Customizer />, //user={user}
+        },
+        {
+          path: "/favorites",
+          element: <Account />, //user={user}
         },
         {
           path: "/payment",

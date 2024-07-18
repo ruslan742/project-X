@@ -15,9 +15,10 @@ import CameraRig from "../../canvas/CameraRig";
 import LogoPicker from "../models/LogoPicker";
 import TexturePicker from "../models/TexturePicker";
 import OpenAI from "openai";
+import domToImage from "dom-to-image";
 // import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from "react-icons/ai";
 // import { Loader } from "../../HOC/Loader";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 function Customizer() {
@@ -110,31 +111,6 @@ function Customizer() {
       setActiveEditorTab("");
     }
   };
-  // const handleSubmit = async (type) => {
-  //   const openai = new OpenAI();
-  //   const image = await openai.images.generate({ model: "dall-e-3", prompt: "A cute baby sea otter" });
-  //   console.log("image", image);
-  //   // if (!prompt) return alert("Please enter a propmt");
-  //   // try {
-  //   //   setGeneratingImg(true);
-  //   //   const response = await fetch("https://api.openai.com/v1/images/generations", {
-  //   //     method: "POST",
-  //   //     headers: {
-  //   //       "Content-Type": "application/json",
-  //   //     },
-  //   //     body: JSON.stringify({
-  //   //       prompt,
-  //   //     }),
-  //   //   });
-  //   //   const data = await response.json();
-  //   //   handleDecals(type, `data:image/png;base64,${data.photo}`);
-  //   // } catch (error) {
-  //   //   alert(error);
-  //   // } finally {
-  //   //   setGeneratingImg(false);
-  //   //   setActiveEditorTab("");
-  //   // }
-  // };
   const handleDecals = (type, result) => {
     const decalType = DecalTypes[type];
     state[decalType.stateProperty] = result;
@@ -178,41 +154,77 @@ function Customizer() {
     if (snap.qty !== 1) state.qty--;
   };
 
-  const onAdd = async (product, quantity) => {
-    const productKeys = Object.keys(product);
-    const filteredProductKeys = productKeys.filter((key) => key !== "quantity");
-
-    const checkProductInCart = snap.cartItems.find((item) => {
-      return filteredProductKeys.every((key) => product[key] === item[key]);
-    });
-
-    state.totalPrice = snap.totalPrice + snap.price;
-    //setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
-
-    if (checkProductInCart) {
-      const updatedCartItems = snap.cartItems.map((cartProduct) => {
-        if (cartProduct.id === product.id)
-          return {
-            ...cartProduct,
-            quantity: cartProduct.quantity + quantity,
-          };
-      });
-      state.cartItems = updatedCartItems;
-      console.log("cartitems", snap.cartItems);
-      //setCartItems(updatedCartItems);
-    } else {
-      state.cartItems = [...snap.cartItems, product];
-      console.log("cartitems", snap.cartItems);
-      // product.quantity = quantity;
-
-      // setCartItems([...cartItems, { ...product }]);
+  const onAdd = async (product, quantity, type) => {
+    let image;
+    //console.log("snap.email", snap.email);
+    if (snap.email === "") {
+      toast.error("Registration is needed.");
+      return;
     }
-    console.log(snap.cartItems);
-    toast.success(`Item added to the cart.`);
+    var node = document.getElementById("canvasimg");
+    const productKeys = Object.keys(product);
+    let id = null;
+    let previousQuantity;
+    if (type === "bascet") {
+      state.totalQuantities = snap.totalQuantities + quantity;
+      state.totalPrice = snap.totalPrice + product.price;
+    }
+    //console.log("product", product, "quantity", quantity);
+    const filteredProductKeys = productKeys.filter((key) => key != "quantity" && key != "price");
+    const checkProductInCart = snap.cartItems.find((item) => {
+      return filteredProductKeys.every((key) => {
+        if (product[key] === item[key]) {
+          id = item.id;
+          previousQuantity = item.quantity;
+          return product[key] === item[key];
+        }
+      });
+    });
+    state.totalPrice = snap.totalPrice + snap.price;
+    //console.log("check", checkProductInCart);
     try {
-      await axios.post("api/bascet", { usermail: snap.email, cloth: JSON.stringify(product) });
+      domToImage
+        .toPng(node)
+        .then(function (dataUrl) {
+          // Создаем новый canvas и рисуем на нем изображение
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          const img = new Image();
+          img.src = dataUrl;
+          return new Promise((resolve, reject) => {
+            img.onload = () => {
+              // Обрезаем изображение
+              const croppedWidth = 650; // Желаемая ширина обрезанного изображения
+              const croppedHeight = 600; // Желаемая высота обрезанного изображения
+              const x = (img.width - croppedWidth) / 2; // Координата X для обрезки
+              const y = (img.height - croppedHeight) / 2; // Координата Y для обрезки
+              canvas.width = croppedWidth;
+              canvas.height = croppedHeight;
+              ctx.drawImage(img, x, y, croppedWidth, croppedHeight, 0, 0, croppedWidth, croppedHeight);
+              // Получаем новый dataURL с обрезанным изображением
+              const croppedDataUrl = canvas.toDataURL("image/png", 0.7); // Качество 70%
+              resolve(croppedDataUrl);
+            };
+            img.onerror = reject;
+          });
+        })
+        .then((croppedDataUrl) => {
+          return axios.post(`api/${type === "bascet" ? "bascet" : "favorite"}/${snap.email}`, {
+            ...product,
+            usermail: snap.email,
+            image: croppedDataUrl,
+          });
+        })
+        .then((response) => {
+          if (type === "bascet") {
+            state.cartItems = [...snap.cartItems, response.data];
+          } else {
+            state.favoriteItems = [...snap.favoriteItems, response.data];
+          }
+          toast.success(`Item added to ${type === "bascet" ? "to the cart" : "to favorites"}.`);
+        });
     } catch (error) {
-      alert(error.response.data.message || "Oops!");
+      toast.error(`Item wasn't added to ${type === "bascet" ? "to the cart" : "to favorites"}.`);
     }
   };
 
@@ -220,6 +232,7 @@ function Customizer() {
     <section className="app">
       <Canvas
         shadows
+        id="canvasimg"
         camera={{ position: [0, 0, 0], fov: 25 }}
         gl={{ preserveDrawingBuffer: true }}
         className=" w-full max-w-full h-full transition-all ease-in"
@@ -313,12 +326,31 @@ function Customizer() {
                         quantity: snap.qty,
                         price: snap.price,
                       },
-                      snap.qty
+                      snap.qty,
+                      "bascet"
                     )
                   }
                   customStyles="w-fit px-4 py-2.5 font-bold text-sm"
                 />
-                <CustomButton type="filled" title="Добавить в избранное" handleClick={() => {}} customStyles="w-fit px-4 py-2.5 font-bold text-sm" />
+                <CustomButton
+                  type="filled"
+                  title="Добавить в избранное"
+                  handleClick={() =>
+                    onAdd(
+                      {
+                        cloth: snap.cloth,
+                        color: snap.color,
+                        logo: snap.isLogoTexture ? snap.logoDecal : null,
+                        texture: snap.isFullTexture ? snap.fullDecal : null,
+                        quantity: snap.qty,
+                        price: snap.price,
+                      },
+                      snap.qty,
+                      "favorite"
+                    )
+                  }
+                  customStyles="w-fit px-4 py-2.5 font-bold text-sm"
+                />
               </div>
             </div>
           </motion.div>

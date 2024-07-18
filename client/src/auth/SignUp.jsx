@@ -4,7 +4,7 @@ import { auth } from "./firebase";
 import { toast } from "react-toastify";
 import state from "../store";
 import { useSnapshot } from "valtio";
-import axios from 'axios';
+import axios from "axios";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -21,15 +21,15 @@ const SignUp = () => {
         toast.success("Registration successful!");
       })
       .catch((error) => {
-        console.log(error);
+        // //console.log(error);
         toast.error("Registration failed!");
       });
 
-      try {
-         await axios.post('api/auth/signup', {email:email,username:'hardcode'});
-      } catch (error) {
-        alert(error.response.data.message || 'Oops!');
-      }
+    try {
+      await axios.post("api/auth/signup", { email: email, username: "hardcode" });
+    } catch (error) {
+      alert(error.response.data.message || "Oops!");
+    }
   };
 
   return (

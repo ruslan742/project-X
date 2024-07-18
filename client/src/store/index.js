@@ -20,6 +20,8 @@ const state = proxy({
   onRemove:false,
   qty:1,
   price:100,
+  favoriteItems:[],
+  orderItems:[]
   
 });
 export default state;

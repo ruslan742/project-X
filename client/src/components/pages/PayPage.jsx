@@ -6,14 +6,18 @@ import { styles } from "../../styles";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import StarsCanvas from "../../canvas/Stars";
-import Payment from "../ui/Payment";
 import Datepicker from "../ui/Datepicker";
+import state from "../../store";
+import { useSnapshot } from "valtio";
+import axios from "axios";
+import {toast} from "react-toastify";
 
 // import Payment from '../ui/Payment';
 //template_7zasq57
 //service_06ydlko
 //v8tfH1PqmqX4ZRrxq
 const Contact = () => {
+  const snap = useSnapshot(state);
   const formRef = useRef();
   const [form, setForm] = useState({
     name: "",
@@ -25,9 +29,33 @@ const Contact = () => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
+    //e.preventDefault();
+    // if (snap.email === "") {
+    //   toast.error("Registration is needed.");
+    //   return;
+    // }
     setLoading(true);
+    try {
+     // console.log("product", product);
+      //console.log('',product)
+      axios
+        .post(`api/order/${snap.email}`, {
+          status: "pre-order",
+          usermail: snap.email,
+          price: snap.totalPrice,
+          items: snap.cartItems.toString(),
+        })
+        .then((response) => {
+          state.orderItems = [...snap.orderItems, response.data];
+          //console.loog("response", response);
+
+          toast.success(`Thank you.`);
+        });
+    } catch (error) {
+      toast.error(`Something went wrong.`);
+    }
+
     emailjs
       .send(
         "service_06ydlko",
@@ -171,7 +199,8 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                onClick={() => handleSubmit()}
+                className="flex w-full items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
               >
                 Pay now
               </button>
@@ -181,13 +210,13 @@ const Contact = () => {
                 <div className="space-y-2">
                   <dl className="flex items-center justify-between gap-4">
                     <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Original price</dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">$6,592.00</dd>
+                    <dd className="text-base font-medium text-gray-900 dark:text-white">${snap.totalPrice}</dd>
                   </dl>
 
-                  <dl className="flex items-center justify-between gap-4">
+                  {/* <dl className="flex items-center justify-between gap-4">
                     <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
                     <dd className="text-base font-medium text-green-500">-$299.00</dd>
-                  </dl>
+                  </dl> */}
 
                   <dl className="flex items-center justify-between gap-4">
                     <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
@@ -202,7 +231,7 @@ const Contact = () => {
 
                 <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                   <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                  <dd className="text-base font-bold text-gray-900 dark:text-white">$7,191.00</dd>
+                  <dd className="text-base font-bold text-gray-900 dark:text-white">${+snap.totalPrice + 799 + 99}</dd>
                 </dl>
               </div>
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "./firebase";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import state from "../store";
 import { useSnapshot } from "valtio";
 const SignIn = () => {
@@ -12,13 +12,12 @@ const SignIn = () => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((user) => {
-        
         state.email = email;
-        
+
         toast.success("Login successful!");
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         toast.error("Login failed!");
       });
   };
@@ -27,11 +26,11 @@ const SignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log(result.user);
+        //console.log(result.user);
         toast.success("Google login successful!");
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         toast.error("Google login failed!");
       });
   };
@@ -41,7 +40,9 @@ const SignIn = () => {
       <h1 className="text-2xl font-bold mb-6 text-center">Log in</h1>
       <form onSubmit={logIn} className="w-full max-w-sm mx-auto bg-w p-8 rounded-md shadow-md">
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+            Email
+          </label>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -53,7 +54,9 @@ const SignIn = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+            Password
+          </label>
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -76,7 +79,7 @@ const SignIn = () => {
           type="button"
         >
           <span>Sign in with Google</span>
-          <img src="./google.jpg" alt="Google logo" className="ml-2" style={{ width: '35px' }} />
+          <img src="./google.jpg" alt="Google logo" className="ml-2" style={{ width: "35px" }} />
         </button>
       </form>
     </div>

@@ -1,5 +1,5 @@
 const express = require("express");
-const { Favorite, User } = require("../../db/models");
+const { Order, User } = require("../../db/models");
 
 const checkId = require("../middlewares/checkId");
 const checkFields = require("../middlewares/checkFields");
@@ -13,8 +13,8 @@ router
     const { userMail } = req.params;
     const user = await User.findOne({ where: { email: userMail } });
     try {
-      const favorites = await Favorite.findAll({ where: { userId: user.id } });
-      res.json(favorites);
+      const orders = await Order.findAll({ where: { userId: user.id } });
+      res.json(orders);
     } catch (error) {
       res.status(500).json({ message: "Server error" });
     }
@@ -22,13 +22,13 @@ router
   .post(async (req, res) => {
     try {
       const { usermail } = req.body;
-      //console.log("=====>", usermail);
+      console.log("=====>", usermail);
       const user = await User.findOne({ where: { email: usermail } });
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const newItem = await Favorite.create({
+      const newItem = await Order.create({
         ...req.body,
         userId: user.id,
       });
@@ -44,11 +44,11 @@ router
     try {
       const { id } = req.params;
 
-      const favorite = await Favorite.findByPk(id);
-      if (!favorite) {
-        return res.status(404).json({ message: "Favorite not found" });
+      const order = await Order.findByPk(id);
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
       }
-      return res.json(favorite);
+      return res.json(order);
     } catch (error) {
       return res.status(500).json({ message: "Server error" });
     }
@@ -57,12 +57,12 @@ router
     try {
       const { id } = req.params;
 
-      const favorite = await Favorite.findByPk(id);
-      if (!favorite) {
-        return res.status(404).json({ message: "Favorite not found" });
+      const order = await Order.findByPk(id);
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
       }
 
-      await Favorite.destroy({ where: { id } });
+      await Order.destroy({ where: { id } });
       return res.sendStatus(200);
     } catch (error) {
       return res.status(500).json({ message: "Server error" });
@@ -80,9 +80,9 @@ router
       }
       //console.log('patchserver====>',updateData)
 
-      await Favorite.update(updateData, { where: { id } });
-      const updatedFavorite = await Favorite.findByPk(id);
-      res.json(updatedFavorite);
+      await Order.update(updateData, { where: { id } });
+      const updatedOrder = await Order.findByPk(id);
+      res.json(updatedOrder);
     } catch (error) {
       res.status(500).json({ message: "Server error" });
     }

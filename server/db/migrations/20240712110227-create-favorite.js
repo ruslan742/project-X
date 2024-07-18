@@ -22,10 +22,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       quantity: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       price: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
+      },
+      image: {
+        type: Sequelize.TEXT
       },
       userId: {
         allowNull: false,
