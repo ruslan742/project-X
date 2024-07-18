@@ -9,12 +9,7 @@ import { useSnapshot } from "valtio";
 export default function NameOfStore() {
   return (
     <section className=" h-[60vh] bg-black mb-36">
-      <Canvas
-        concurrent="true"
-        gl={{ alpha: false }}
-        pixelratio={[1, 1.5]}
-        camera={{ position: [0, 0, 100], fov: 55 }}
-      >
+      <Canvas concurrent="true" gl={{ alpha: false }} pixelratio={[1, 1.5]} camera={{ position: [0, 0, 100], fov: 55 }}>
         <color attach="background" args={["black"]} />
         <fog attach="fog" args={["black", 15, 20]} />
         <Suspense fallback={<Loader />}>
@@ -28,8 +23,7 @@ export default function NameOfStore() {
         </Suspense>
       </Canvas>
       <p id="title" className="section-heading" style={{ textAlign: "center" }}>
-        Take something ready-made or create your own - a store of possibilities
-        for you..
+        Take something ready-made or create your own - a store of possibilities for you..
       </p>
     </section>
   );
@@ -47,22 +41,10 @@ function VideoText(props) {
   );
   useEffect(() => void video.play(), [video]);
   return (
-    <Text
-      font="/fonts/Inter-Bold.woff"
-      textAlign="center"
-      fontSize={3}
-      letterSpacing={-0.06}
-      {...props}
-    >
-      {snap.userName === "" ? "Cyber \n Closet " : snap.userName}
+    <Text font="/fonts/Inter-Bold.woff" textAlign="center" fontSize={3} letterSpacing={-0.06} {...props}>
+      {snap.userName === "" ? "Cyber \n Closet " : `Welcome\n${snap.userName}`}
       <meshBasicMaterial toneMapped={false}>
-        <videoTexture
-          attach="map"
-          args={[video]}
-          encoding={THREE.sRGBEncoding}
-          repeat={[1, 1]}
-          centerVideo
-        />
+        <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} repeat={[1, 1]} centerVideo />
       </meshBasicMaterial>
     </Text>
   );
@@ -71,10 +53,7 @@ function VideoText(props) {
 function Intro() {
   const [vec] = useState(() => new THREE.Vector3());
   return useFrame((state) => {
-    state.camera.position.lerp(
-      vec.set(state.mouse.x * 5, 3 + state.mouse.y * 2, 14),
-      0.05
-    );
+    state.camera.position.lerp(vec.set(state.mouse.x * 5, 3 + state.mouse.y * 2, 14), 0.05);
     state.camera.lookAt(0, 0, 0);
   });
 }

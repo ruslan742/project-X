@@ -7,7 +7,7 @@ const state = proxy({
   clothyScale: 140,
   clothxScale: 105,
   cloth: "sock",
-  color: "#EFBD48",
+  color: "#FFFFFF",
   isLogoTexture: false,
   isFullTexture: false,
   logoDecal: "./logos/css.png",

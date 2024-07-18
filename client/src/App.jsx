@@ -14,9 +14,9 @@ import Customizer from "./components/pages/Customizer";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import PayPage from "./components/pages/PayPage";
-import Favourites from "./components/pages/Favourites";
 import PrivateRoute from "./auth/PrivateRoute";
 import ErrorPage from "./components/pages/ErrorPage"; // Импортируем новый компонент
+import Account from "./components/pages/Account";
 
 const App = () => {
   const snap = useSnapshot(state);
@@ -64,10 +64,10 @@ const App = () => {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/constructor" element={<Customizer />} />
             <Route
-              path="/favourites"
+              path="/favorites"
               element={
                 <PrivateRoute isAllowed={!!snap.email} redirect="/signin">
-                  <Favourites />
+                  <Account />
                 </PrivateRoute>
               }
             />
@@ -95,8 +95,7 @@ const App = () => {
                 </PrivateRoute>
               }
             />
-            <Route path="*" element={<ErrorPage />} />{" "}
-            {/* Добавляем этот маршрут */}
+            <Route path="*" element={<ErrorPage />} /> {/* Добавляем этот маршрут */}
           </Route>
         </Routes>
       </div>

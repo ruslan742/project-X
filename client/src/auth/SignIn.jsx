@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth, db } from "./firebase";
 import { toast } from "react-toastify";
 import { doc, getDoc } from "firebase/firestore";
@@ -18,11 +14,8 @@ const SignIn = () => {
   const logIn = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("userCredential", userCredential);
       const user = userCredential.user;
 
       const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -66,15 +59,9 @@ const SignIn = () => {
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6 text-center">Log in</h1>
-      <form
-        onSubmit={logIn}
-        className="w-full max-w-sm mx-auto bg-w p-8 rounded-md shadow-md"
-      >
+      <form onSubmit={logIn} className="w-full max-w-sm mx-auto bg-w p-8 rounded-md shadow-md">
         <div className="mb-4">
-          <label
-            className="block text-red-600 text-lg font-bold mb-2"
-            htmlFor="email"
-          >
+          <label className="block text-red-600 text-lg font-bold mb-2" htmlFor="email">
             Email:
           </label>
           <input
@@ -88,10 +75,7 @@ const SignIn = () => {
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-red-600 text-lg font-bold mb-2"
-            htmlFor="password"
-          >
+          <label className="block text-red-600 text-lg font-bold mb-2" htmlFor="password">
             Password:
           </label>
           <input
@@ -116,12 +100,7 @@ const SignIn = () => {
           type="button"
         >
           <span>Sign in with Google</span>
-          <img
-            src="./google.jpg"
-            alt="Google logo"
-            className="ml-2"
-            style={{ width: "35px" }}
-          />
+          <img src="./google.jpg" alt="Google logo" className="ml-2" style={{ width: "35px" }} />
         </button>
       </form>
     </div>
