@@ -16,10 +16,13 @@ const state = proxy({
   totalQuantities: 0,
   cartItems: [],
   showCart: false,
-  toggleCartItemQuanitity: true,
-  onRemove: false,
-  qty: 1,
-  price: 100,
+  toggleCartItemQuanitity:true,
+  onRemove:false,
+  qty:1,
+  price:100,
+  favoriteItems:[],
+  orderItems:[]
+  
 });
 
 export default state;

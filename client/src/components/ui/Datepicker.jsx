@@ -38,12 +38,12 @@ const options = {
     month: "long",
     year: "numeric",
   },
-};	
+};
 
 export default function DatepickerforCard() {
   const [show, setShow] = useState(false);
   const handleChange = (selectedDate) => {
-    console.log(selectedDate);
+    //console.log(selectedDate);
   };
   const handleClose = (state) => {
     setShow(state);

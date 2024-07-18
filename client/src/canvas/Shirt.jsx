@@ -13,7 +13,7 @@ const Shirt = () => {
   const fullTexture = useTexture(snap.fullDecal);
   useFrame((state, delta) => easing.dampC(materials["lambert1"].color, snap.color, 0.25, delta));
   const stateString = JSON.stringify(snap);
-
+  //const dataURL = canvas.toDataURL('image/png');
   return (
     <group key={stateString}>
       <mesh castShadow geometry={nodes.T_Shirt_male.geometry} material={materials["lambert1"]} material-roughness={1} dispose={null}>

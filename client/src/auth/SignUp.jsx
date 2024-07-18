@@ -5,6 +5,8 @@ import { auth, db } from "./firebase";
 import { toast } from "react-toastify";
 import state from "../store";
 import { doc, setDoc } from "firebase/firestore";
+import { useSnapshot } from "valtio";
+import axios from "axios";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -34,6 +36,22 @@ const SignUp = () => {
     } catch (error) {
       console.log(error);
       toast.error("Registration failed!");
+    }
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((user) => {
+        state.email = email;
+
+        toast.success("Registration successful!");
+      })
+      .catch((error) => {
+        // //console.log(error);
+        toast.error("Registration failed!");
+      });
+
+    try {
+      await axios.post("api/auth/signup", { email: email, username: "hardcode" });
+    } catch (error) {
+      alert(error.response.data.message || "Oops!");
     }
   };
 
