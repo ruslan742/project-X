@@ -47,7 +47,7 @@ export default function FavoriteCard({ index, image, cloth, item, onRemove, onAd
           </div>
           <h3 className="text-white text-[20px] font-bold text-center">{cloth}</h3>
           <button onClick={() => onAdd(item)} className="mt-4 bg-green-500 text-white py-2 px-4 rounded">
-            Добавить в корзину
+            Add to cart
           </button>
         </div>
       </motion.div>

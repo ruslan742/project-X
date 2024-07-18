@@ -5,7 +5,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 import state from "../../store";
 import { useSnapshot } from "valtio";
 import axios from "axios";
-
+import { NavLink } from "react-router-dom";
 //  import { useStateContext } from "../context/";
 // import { urlFor } from "../lib/client";
 // import getStripe from "../lib/getStripe";
@@ -14,7 +14,9 @@ const Cart = () => {
   const snap = useSnapshot(state);
   const cartRef = useRef();
 
-  const handleCheckout = async () => {};
+  const handleCheckout = async () => {
+
+  };
 
   const onRemove = async (product) => {
     //console.log("onremove", product);
@@ -204,9 +206,13 @@ const Cart = () => {
               <h3>${snap.totalPrice}</h3>
             </div>
             <div className="btn-container">
+            
+         
+        
               <button type="button" className="btn" onClick={handleCheckout}>
                 Pay
               </button>
+              
             </div>
           </div>
         )}

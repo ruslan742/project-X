@@ -35,9 +35,7 @@ function Customizer() {
   });
   useEffect(() => {
     state.price =
-      ((snap.cloth === "sock" ? 100 : snap.cloth === "shirt" ? 500 : 1000) +
-        (snap.isFullTexture ? 300 : 0) +
-        (snap.isLogoTexture ? 200 : 0)) *
+      ((snap.cloth === "sock" ? 100 : snap.cloth === "shirt" ? 500 : 1000) + (snap.isFullTexture ? 300 : 0) + (snap.isLogoTexture ? 200 : 0)) *
       snap.qty;
   }, [snap.cloth, snap.isFullTexture, snap.isLogoTexture, snap.qty]);
 
@@ -92,22 +90,75 @@ function Customizer() {
     }
   };
   const handleSubmit = async (type) => {
+    //   const options = {
+    //     method: "POST",
+    //     url: "https://api.edenai.run/v2/image/generation",
+    //     headers: {
+    //       authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMWEzZmUxOWQtMzhiZi00N2Y1LThlNmEtZjdkODM1YzRhZGQ0IiwidHlwZSI6ImFwaV90b2tlbiJ9.yT9gcn3KDcamwjhMpwBTKHZc1zO5h-godRRwDCuvDzg",
+    //     },
+    //     data: {
+    //       providers: "openai",
+    //       text: prompt,
+    //       resolution: "512x512",
+    //     },
+    //   };
+    //   if (!prompt) return alert("Please enter a propmt");
+    //   try {
+    //     setGeneratingImg(true);
+    //     // const response = await fetch("http://localhost:3000/api/v1/dalle", {
+    //     //   method: "POST",
+    //     //   headers: {
+    //     //     "Content-Type": "application/json",
+    //     //   },
+    //     //   body: JSON.stringify({
+    //     //     prompt,
+    //     //   }),
+    //     // });
+    //     axios
+    // .request(options)
+    // .then((response) => {
+    //   console.log(response.data);
+    //   handleDecals(type, `data:image/png;base64,${response.data.json().photo}`);
+    // })
+    // .catch((error) => {
+    //   console.error(error);
+    // });
+    //     const data = await response.json();
+    //     handleDecals(type, `data:image/png;base64,${data.photo}`);
+    //   } catch (error) {
+    //     alert(error);
+    //   } finally {
+    //     setGeneratingImg(false);
+    //     setActiveEditorTab("");
+    //   }
     if (!prompt) return alert("Please enter a propmt");
     try {
       setGeneratingImg(true);
-      const response = await fetch("http://localhost:3000/api/v1/dalle", {
+      const options = {
         method: "POST",
+        url: "https://api.edenai.run/v2/image/generation",
         headers: {
-          "Content-Type": "application/json",
+          authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMWEzZmUxOWQtMzhiZi00N2Y1LThlNmEtZjdkODM1YzRhZGQ0IiwidHlwZSI6ImFwaV90b2tlbiJ9.yT9gcn3KDcamwjhMpwBTKHZc1zO5h-godRRwDCuvDzg",
         },
-        body: JSON.stringify({
-          prompt,
-        }),
-      });
-      const data = await response.json();
-      handleDecals(type, `data:image/png;base64,${data.photo}`);
+        data: {
+          providers: "openai",
+          text: `${prompt}`,
+          resolution: "1024x1024",
+        },
+      };
+
+      axios
+        .request(options)
+        .then((response) => {
+          handleDecals(type, `data:image/png;base64,${response.data.openai.items[0].image}`); //
+          console.log(response.data.openai.items[0].image);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     } catch (error) {
-      alert(error);
+      toast.error("Something went wrong.");
     } finally {
       setGeneratingImg(false);
       setActiveEditorTab("");
@@ -250,39 +301,22 @@ function Customizer() {
       <AnimatePresence>
         (
         <>
-          <motion.div
-            key="custom"
-            className="absolute top-0 left-0 z-10"
-            {...slideAnimation("left")}
-          >
+          <motion.div key="custom" className="absolute top-0 left-0 z-10" {...slideAnimation("left")}>
             <div className="flex items-center min-h-screen">
               <div className="editortabs-container ">
                 {EditorTabs.map((tab) => (
-                  <Tab
-                    key={tab.name}
-                    tab={tab}
-                    handleClick={() => setActiveEditorTab(tab.name)}
-                  />
+                  <Tab key={tab.name} tab={tab} handleClick={() => setActiveEditorTab(tab.name)} />
                 ))}
                 {generateTabContent()}
               </div>
             </div>
           </motion.div>
-          <motion.div
-            key="buttons"
-            className="flex flex-col items-center absolute top-0 right-10 z-10"
-            {...slideAnimation("right")}
-          >
+          <motion.div key="buttons" className="flex flex-col items-center absolute top-0 right-10 z-10" {...slideAnimation("right")}>
             <div className="flex items-center min-h-screen">
               <div className="buttontabs-container ">
-                <div className="block mb-2 text-xl font-medium text-white dark:text-white">
-                  ${snap.price}
-                </div>
+                <div className="block mb-2 text-xl font-medium text-white dark:text-white">${snap.price}</div>
                 <form className="max-w-xs mx-auto">
-                  <label
-                    for="quantity-input"
-                    className="block mb-2 text-sm font-medium text-white dark:text-white"
-                  >
+                  <label for="quantity-input" className="block mb-2 text-sm font-medium text-white dark:text-white">
                     Choose quantity:
                   </label>
                   <div className="relative flex items-center max-w-[8rem]">
@@ -300,13 +334,7 @@ function Customizer() {
                         fill="none"
                         viewBox="0 0 18 2"
                       >
-                        <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M1 1h16"
-                        />
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
                       </svg>
                     </button>
                     <input
@@ -333,20 +361,14 @@ function Customizer() {
                         fill="none"
                         viewBox="0 0 18 18"
                       >
-                        <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M9 1v16M1 9h16"
-                        />
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
                       </svg>
                     </button>
                   </div>
                 </form>
                 <CustomButton
                   type="filled"
-                  title="Add to Basket"
+                  title="Add to cart"
                   handleClick={() =>
                     onAdd(
                       {
@@ -361,11 +383,11 @@ function Customizer() {
                       "bascet"
                     )
                   }
-                  customStyles="w-fit px-4 py-2.5 font-bold text-sm"
+                  customStyles="w-full px-4 py-2.5 font-bold text-sm"
                 />
                 <CustomButton
                   type="filled"
-                  title="Добавить в избранное"
+                  title="Add to favorites"
                   handleClick={() =>
                     onAdd(
                       {
@@ -380,16 +402,12 @@ function Customizer() {
                       "favorite"
                     )
                   }
-                  customStyles="w-fit px-4 py-2.5 font-bold text-sm"
+                  customStyles="w-full px-4 py-2.5 font-bold text-sm"
                 />
               </div>
             </div>
           </motion.div>
-          <motion.div
-            ref={tabRef}
-            className="filtertabs-container"
-            {...slideAnimation("up")}
-          >
+          <motion.div ref={tabRef} className="filtertabs-container" {...slideAnimation("up")}>
             {FilterTabs.map((tab) => (
               <Tab
                 key={tab.name}
@@ -406,13 +424,7 @@ function Customizer() {
           </motion.div>
           <motion.div className="clothtabs-container" {...slideAnimation("up")}>
             {ClothTabs.map((tab) => (
-              <Tab
-                key={tab.name}
-                tab={tab}
-                isClothTab
-                isActiveTab={tab.name === snap.cloth}
-                handleClick={() => handleActiveClothTab(tab.name)}
-              />
+              <Tab key={tab.name} tab={tab} isClothTab isActiveTab={tab.name === snap.cloth} handleClick={() => handleActiveClothTab(tab.name)} />
             ))}
           </motion.div>
         </>

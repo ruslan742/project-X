@@ -33,6 +33,11 @@ const SignUp = () => {
       console.log(error);
       toast.error("Registration failed!");
     }
+    try {
+      await axios.post("api/auth/signup", { email: email, username: "hardcode" });
+    } catch (error) {
+      alert(error.response.data.message || "Oops!");
+    }
   };
 
   return (

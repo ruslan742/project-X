@@ -17,6 +17,7 @@ import PayPage from "./components/pages/PayPage";
 import PrivateRoute from "./auth/PrivateRoute";
 import ErrorPage from "./components/pages/ErrorPage"; // Импортируем новый компонент
 import Account from "./components/pages/Account";
+import { toast } from "react-toastify";
 
 const App = () => {
   const snap = useSnapshot(state);
@@ -38,7 +39,7 @@ const App = () => {
         }
       }
     });
-
+if(snap.email){
     try {
       axios.get("/api/bascet/").then(({ data }) => {
         const items = data.map((element) => ({
@@ -48,8 +49,9 @@ const App = () => {
         state.cartItems = items;
       });
     } catch (error) {
-      alert(error.response.data.message || "Oops!");
+      toast.error("Something went wrong.");
     }
+  }
 
     return () => unsubscribe();
   }, []);
