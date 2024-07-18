@@ -1,13 +1,13 @@
 const express = require("express");
-const { Bascet, User } = require("../../db/models");
 
 const dotenv = require("dotenv");
 const OpenAIApi = require("openai");
 const Configuration = require("openai");
 
+const { Router } = require("express");
 const checkId = require("../middlewares/checkId");
 const checkFields = require("../middlewares/checkFields");
-const { Router } = require("express");
+const { Bascet, User } = require("../../db/models");
 
 const router = express.Router();
 

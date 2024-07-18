@@ -35,7 +35,9 @@ function Customizer() {
   });
   useEffect(() => {
     state.price =
-      ((snap.cloth === "sock" ? 100 : snap.cloth === "shirt" ? 500 : 1000) + (snap.isFullTexture ? 300 : 0) + (snap.isLogoTexture ? 200 : 0)) *
+      ((snap.cloth === "sock" ? 100 : snap.cloth === "shirt" ? 500 : 1000) +
+        (snap.isFullTexture ? 300 : 0) +
+        (snap.isLogoTexture ? 200 : 0)) *
       snap.qty;
   }, [snap.cloth, snap.isFullTexture, snap.isLogoTexture, snap.qty]);
 
@@ -248,22 +250,39 @@ function Customizer() {
       <AnimatePresence>
         (
         <>
-          <motion.div key="custom" className="absolute top-0 left-0 z-10" {...slideAnimation("left")}>
+          <motion.div
+            key="custom"
+            className="absolute top-0 left-0 z-10"
+            {...slideAnimation("left")}
+          >
             <div className="flex items-center min-h-screen">
               <div className="editortabs-container ">
                 {EditorTabs.map((tab) => (
-                  <Tab key={tab.name} tab={tab} handleClick={() => setActiveEditorTab(tab.name)} />
+                  <Tab
+                    key={tab.name}
+                    tab={tab}
+                    handleClick={() => setActiveEditorTab(tab.name)}
+                  />
                 ))}
                 {generateTabContent()}
               </div>
             </div>
           </motion.div>
-          <motion.div key="buttons" className="flex flex-col items-center absolute top-0 right-10 z-10" {...slideAnimation("right")}>
+          <motion.div
+            key="buttons"
+            className="flex flex-col items-center absolute top-0 right-10 z-10"
+            {...slideAnimation("right")}
+          >
             <div className="flex items-center min-h-screen">
               <div className="buttontabs-container ">
-                <div className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${snap.price}</div>
+                <div className="block mb-2 text-xl font-medium text-white dark:text-white">
+                  ${snap.price}
+                </div>
                 <form className="max-w-xs mx-auto">
-                  <label for="quantity-input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label
+                    for="quantity-input"
+                    className="block mb-2 text-sm font-medium text-white dark:text-white"
+                  >
                     Choose quantity:
                   </label>
                   <div className="relative flex items-center max-w-[8rem]">
@@ -281,7 +300,13 @@ function Customizer() {
                         fill="none"
                         viewBox="0 0 18 2"
                       >
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M1 1h16"
+                        />
                       </svg>
                     </button>
                     <input
@@ -308,14 +333,20 @@ function Customizer() {
                         fill="none"
                         viewBox="0 0 18 18"
                       >
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 1v16M1 9h16"
+                        />
                       </svg>
                     </button>
                   </div>
                 </form>
                 <CustomButton
                   type="filled"
-                  title="Добавить в корзину"
+                  title="Add to Basket"
                   handleClick={() =>
                     onAdd(
                       {
@@ -354,7 +385,11 @@ function Customizer() {
               </div>
             </div>
           </motion.div>
-          <motion.div ref={tabRef} className="filtertabs-container" {...slideAnimation("up")}>
+          <motion.div
+            ref={tabRef}
+            className="filtertabs-container"
+            {...slideAnimation("up")}
+          >
             {FilterTabs.map((tab) => (
               <Tab
                 key={tab.name}
@@ -371,7 +406,13 @@ function Customizer() {
           </motion.div>
           <motion.div className="clothtabs-container" {...slideAnimation("up")}>
             {ClothTabs.map((tab) => (
-              <Tab key={tab.name} tab={tab} isClothTab isActiveTab={tab.name === snap.cloth} handleClick={() => handleActiveClothTab(tab.name)} />
+              <Tab
+                key={tab.name}
+                tab={tab}
+                isClothTab
+                isActiveTab={tab.name === snap.cloth}
+                handleClick={() => handleActiveClothTab(tab.name)}
+              />
             ))}
           </motion.div>
         </>

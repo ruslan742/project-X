@@ -8,8 +8,10 @@ import texture7 from "./7.jpg";
 import texture8 from "./8.jpg";
 import texture9 from "./9.jpg";
 import texture10 from "./10.jpg";
+import texture11 from "./11.png";
+import texture12 from "./12.png";
 
 
 
 
-export { texture1,texture2,texture3,texture4,texture5,texture6,texture7,texture8,texture9,texture10};
+export { texture1,texture2,texture3,texture4,texture5,texture6,texture7,texture8,texture9,texture10,texture11,texture12};

@@ -1,8 +1,8 @@
 import { proxy } from "valtio";
+
 const state = proxy({
-  email:null,
-  userName:'',
-  
+  email: null,
+  userName: "",
   clothzScale: 455, // 115 1
   clothyScale: 140,
   clothxScale: 105,
@@ -24,7 +24,5 @@ const state = proxy({
   orderItems:[]
   
 });
+
 export default state;
-
-
-

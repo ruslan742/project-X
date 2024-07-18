@@ -1,94 +1,107 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./auth/firebase";
+import state from "./store";
+import { useSnapshot } from "valtio";
+import axios from "axios";
+import { doc, getDoc, enableIndexedDbPersistence } from "firebase/firestore";
 import Layout from "./components/Layout";
 import NameOfStore from "./components/pages/NameOfStore";
 import Gallery from "./components/pages/Gallery";
 import Customizer from "./components/pages/Customizer";
-import SignIn from "./auth/SingIn";
+import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
-// import PaymentPage from "./components/pages/PaymentPage";
 import PayPage from "./components/pages/PayPage";
-// import state from "./store";
-import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./auth/firebase";
-// import { auth } from "./components/firebase";
-import state from "../src/store";
-import { useSnapshot } from "valtio";
-import axios from "axios";
-import Account from "./components/pages/Account";
+import Favourites from "./components/pages/Favourites";
+import PrivateRoute from "./auth/PrivateRoute";
+import ErrorPage from "./components/pages/ErrorPage"; // Импортируем новый компонент
 
 const App = () => {
   const snap = useSnapshot(state);
+
   useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const { email } = user;
         state.email = email;
+
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            state.userName = userData.userName || "";
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error.message);
+        }
       }
     });
 
     try {
-      const userMail = snap.email;
-      if (userMail) {
-       
-        axios.get(`api/bascet/${userMail}`).then(({ data }) => {
-          state.cartItems = data;
-          state.totalQuantities = state.cartItems.reduce((acc, el) => {
-            return acc + Number(el.quantity);
-          }, 0);
-          state.totalPrice = state.cartItems.reduce((acc, el) => {
-            return acc + Number(el.price);
-          }, 0);
-        });
-      }
+      axios.get("/api/bascet/").then(({ data }) => {
+        const items = data.map((element) => ({
+          ...JSON.parse(element.product),
+          id: element.id,
+        }));
+        state.cartItems = items;
+      });
     } catch (error) {
       alert(error.response.data.message || "Oops!");
     }
-    ////console.log('nachalo',snap.cartItems)
-    // try {
-    //   axios.get(`api/bascet/:${}`).then(({data})=>{
-    //     //console.log(data)
-    //     //const items=data.map((element)=>({...element}))
-    //     ////console.log('items',items)
-    //     state.cartItems=data
-    //   });
-    // } catch (error) {
-    //   alert(error.response.data.message || "Oops!");
-    // }
-  }, [snap.email]);
 
-  const router = createBrowserRouter([
-    {
-      element: <Layout />,
-      children: [
-        { path: "/signin", element: <SignIn /> },
-        { path: "/signup", element: <SignUp /> },
+    return () => unsubscribe();
+  }, []);
 
-        {
-          path: "/",
-          element: <NameOfStore />,
-        },
-        {
-          path: "/gallery",
-          element: <Gallery />, //user={user}
-        },
-        {
-          path: "/constructor",
-          element: <Customizer />, //user={user}
-        },
-        {
-          path: "/favorites",
-          element: <Account />, //user={user}
-        },
-        {
-          path: "/payment",
-          element: <PayPage />,
-        },
-      ],
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
+  return (
+    <Router>
+      <div>
+        <Toaster />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<NameOfStore />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/constructor" element={<Customizer />} />
+            <Route
+              path="/favourites"
+              element={
+                <PrivateRoute isAllowed={!!snap.email} redirect="/signin">
+                  <Favourites />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/signin"
+              element={
+                <PrivateRoute isAllowed={!snap.email} redirect="/">
+                  <SignIn />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PrivateRoute isAllowed={!snap.email} redirect="/">
+                  <SignUp />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/payment"
+              element={
+                <PrivateRoute isAllowed={!!snap.email} redirect="/signin">
+                  <PayPage />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<ErrorPage />} />{" "}
+            {/* Добавляем этот маршрут */}
+          </Route>
+        </Routes>
+      </div>
+    </Router>
+  );
 };
 
 export default App;
