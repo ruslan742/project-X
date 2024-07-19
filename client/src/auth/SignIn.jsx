@@ -62,7 +62,7 @@ const SignIn = () => {
       navigate("/"); // Переход на главную страницу
     } catch (error) {
       //console.log(error);
-      toast.error("Google login failed!");
+      //toast.error("Google login failed!");
     }
   };
 
