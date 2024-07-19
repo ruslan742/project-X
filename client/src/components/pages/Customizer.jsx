@@ -224,8 +224,6 @@ function Customizer() {
     const checkProductInCart = snap.cartItems.find((item) => {
       return filteredProductKeys.every((key) => {
         if (product[key] === item[key]) {
-          id = item.id;
-          previousQuantity = item.quantity;
           return product[key] === item[key];
         }
       });
