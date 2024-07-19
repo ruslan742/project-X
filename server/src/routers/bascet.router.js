@@ -23,6 +23,7 @@ router
     try {
       const { usermail } = req.body;
       console.log("=====>", usermail);
+      console.log("req.body=====>", req.body);
       const user = await User.findOne({ where: { email: usermail } });
       if (!user) {
         return res.status(404).json({ message: "User not found" });

@@ -155,18 +155,18 @@ function Customizer() {
         .then((response) => {
           handleDecals(type, `data:image/png;base64,${response.data.openai.items[0].image}`); //
           console.log(response.data.openai.items[0].image);
-        })
-        .catch((error) => {
+        }).then(() => {
+          toast.success("Image generated.");
+          setActiveEditorTab("")
+          setGeneratingImg(false);
+          setLoading(false);
+        }).catch((error) => {
           console.error(error);
         });
     } catch (error) {
       setLoading(false);
       toast.error("Something went wrong.");
-    } finally {
-      setLoading(false);
-      setGeneratingImg(false);
-      setActiveEditorTab("");
-    }
+    } 
   };
   const handleDecals = (type, result) => {
     const decalType = DecalTypes[type];
@@ -229,7 +229,7 @@ function Customizer() {
       });
     });
     console.log("checkProductInCart", checkProductInCart);
-    if (checkProductInCart) {
+    if (checkProductInCart&&type==='bascet') {
       toast.error(`The item is already in the cart`);
       return;
     }

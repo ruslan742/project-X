@@ -16,10 +16,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       logo: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       texture: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       quantity: {
         type: Sequelize.INTEGER
