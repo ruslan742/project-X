@@ -26,18 +26,18 @@ const SignUp = () => {
         userName: username,
         email: email,
       });
-
+      await axios.post("api/auth/signup", { email: email, username:state.userName });
       toast.success("Registration successful!");
       navigate("/"); // Переход на главную страницу после успешной регистрации
     } catch (error) {
       console.log(error);
       toast.error("Registration failed!");
     }
-    try {
-      await axios.post("api/auth/signup", { email: email, username: "hardcode" });
-    } catch (error) {
-      alert(error.response.data.message || "Oops!");
-    }
+    // try {
+     
+    // } catch (error) {
+    //   alert(error.response.data.message || "Oops!");
+    // }
   };
 
   return (

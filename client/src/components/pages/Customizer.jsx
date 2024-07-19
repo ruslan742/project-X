@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 function Customizer() {
+  const [loading, setLoading] = useState(false);
   const tabRef = useRef(null);
   const snap = useSnapshot(state);
   const [file, setFile] = useState("");
@@ -46,7 +47,7 @@ function Customizer() {
       case "filepicker":
         return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
       case "aipicker":
-        return <AiPicker prompt={prompt} setPrompt={setPrompt} generatingImg={generatingImg} handleSubmit={handleSubmit} />;
+        return <AiPicker prompt={prompt} setPrompt={setPrompt} generatingImg={generatingImg} handleSubmit={handleSubmit} loading={loading} />;
       default:
         return null;
     }
@@ -90,6 +91,7 @@ function Customizer() {
     }
   };
   const handleSubmit = async (type) => {
+    setLoading(true);
     //   const options = {
     //     method: "POST",
     //     url: "https://api.edenai.run/v2/image/generation",
@@ -158,8 +160,10 @@ function Customizer() {
           console.error(error);
         });
     } catch (error) {
+      setLoading(false);
       toast.error("Something went wrong.");
     } finally {
+      setLoading(false);
       setGeneratingImg(false);
       setActiveEditorTab("");
     }
@@ -208,22 +212,15 @@ function Customizer() {
   };
 
   const onAdd = async (product, quantity, type) => {
+    const productKeys = Object.keys(product);
     let image;
     //console.log("snap.email", snap.email);
     if (snap.email === "") {
       toast.error("Registration is needed.");
       return;
     }
-    var node = document.getElementById("canvasimg");
-    const productKeys = Object.keys(product);
-    let id = null;
-    let previousQuantity;
-    if (type === "bascet") {
-      state.totalQuantities = snap.totalQuantities + quantity;
-      state.totalPrice = snap.totalPrice + product.price;
-    }
-    //console.log("product", product, "quantity", quantity);
     const filteredProductKeys = productKeys.filter((key) => key != "quantity" && key != "price");
+    console.log("carditems", snap.cartItems);
     const checkProductInCart = snap.cartItems.find((item) => {
       return filteredProductKeys.every((key) => {
         if (product[key] === item[key]) {
@@ -233,7 +230,22 @@ function Customizer() {
         }
       });
     });
-    state.totalPrice = snap.totalPrice + snap.price;
+    console.log("checkProductInCart", checkProductInCart);
+    if (checkProductInCart) {
+      toast.error(`The item is already in the cart`);
+      return;
+    }
+    var node = document.getElementById("canvasimg");
+
+    let id = null;
+    let previousQuantity;
+    if (type === "bascet") {
+      state.totalQuantities = snap.totalQuantities + quantity;
+      state.totalPrice = snap.totalPrice + product.price;
+    }
+    //console.log("product", product, "quantity", quantity);
+
+    //state.totalPrice = snap.totalPrice + snap.price;
     //console.log("check", checkProductInCart);
     try {
       domToImage
@@ -274,7 +286,7 @@ function Customizer() {
           } else {
             state.favoriteItems = [...snap.favoriteItems, response.data];
           }
-          toast.success(`Item added to ${type === "bascet" ? "to the cart" : "to favorites"}.`);
+          toast.success(`The item is added to ${type === "bascet" ? "to the cart" : "to favorites"}.`);
         });
     } catch (error) {
       toast.error(`Item wasn't added to ${type === "bascet" ? "to the cart" : "to favorites"}.`);
@@ -316,9 +328,9 @@ function Customizer() {
               <div className="buttontabs-container ">
                 <div className="block mb-2 text-xl font-medium text-white dark:text-white">${snap.price}</div>
                 <form className="max-w-xs mx-auto">
-                  <label for="quantity-input" className="block mb-2 text-sm font-medium text-white dark:text-white">
+                  {/* <label for="quantity-input" className="block mb-2 text-sm font-medium text-white dark:text-white">
                     Choose quantity:
-                  </label>
+                  </label> */}
                   <div className="relative flex items-center max-w-[8rem]">
                     <button
                       type="button"
@@ -343,7 +355,7 @@ function Customizer() {
                       data-input-counter
                       value={snap.qty}
                       aria-describedby="helper-text-explanation"
-                      className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="1"
                       required
                     />
@@ -383,7 +395,7 @@ function Customizer() {
                       "bascet"
                     )
                   }
-                  customStyles="w-full px-4 py-2.5 font-bold text-sm"
+                  customStyles="w-full px-4 py-2.5 font-bold text-lg"
                 />
                 <CustomButton
                   type="filled"
@@ -395,14 +407,14 @@ function Customizer() {
                         color: snap.color,
                         logo: snap.isLogoTexture ? snap.logoDecal : null,
                         texture: snap.isFullTexture ? snap.fullDecal : null,
-                        quantity: snap.qty,
-                        price: snap.price,
+                        quantity: 1,
+                        price: snap.cloth === "sock" ? 100 : snap.cloth === "hoodie" ? 1000 : 500,
                       },
                       snap.qty,
                       "favorite"
                     )
                   }
-                  customStyles="w-full px-4 py-2.5 font-bold text-sm"
+                  customStyles="w-full px-4 py-2.5 font-bold text-lg"
                 />
               </div>
             </div>

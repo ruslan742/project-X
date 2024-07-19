@@ -9,7 +9,7 @@ import logoShirt2 from './logo-shirt2.png';
 import logoHoodie from './logo-hoodie.png';
 import logoSock from './logo-sock.png';
 import stylishShirt from './stylish-tshirt.png';
-import errorImage from './IMG_1840.jpg'
+import errorImage from './IMG_1840.png'
 
 export {
   ai,

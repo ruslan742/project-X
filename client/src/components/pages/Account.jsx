@@ -19,6 +19,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 const Account = () => {
   const snap = useSnapshot(state);
   //console.log("snap.favoriteItems", snap.favoriteItems);
+
   useEffect(() => {
     try {
       const userMail = snap.email;
@@ -31,7 +32,7 @@ const Account = () => {
         });
       }
     } catch (error) {
-      alert(error.response.data.message || "Oops!");
+      //alert(error.response.data.message || "Oops!");
     }
   }, [snap.email]);
   const handleAdd = async (product) => {
@@ -73,7 +74,7 @@ const Account = () => {
     try {
       const newFavorite = await axios.delete(`api/favorite/${snap.email}/${product.id}`);
     } catch (error) {
-      alert(error.response.data.message || "Oops!");
+      toast.error("Something went wrong");
     }
 
     // setTotalPrice((prevTotalPrice) => prevTotalPrice -foundProduct.price * foundProduct.quantity);
@@ -129,7 +130,7 @@ const Account = () => {
         </div>
       )}
       {snap.orderItems.length > 0 && (
-        <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+        <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16 rounded-3xl">
           {snap.orderItems.map((elem) => (
             <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
               <div className="mx-auto max-w-5xl">
@@ -137,8 +138,8 @@ const Account = () => {
                   <div className="divide-y divide-gray-200 dark:divide-gray-700">
                     <div className="flex flex-wrap items-center gap-y-4 py-6">
                       <dl className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                        <dt className="text-base font-medium text-gray-500 dark:text-gray-400">Order ID:</dt>
-                        <dd className="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
+                        <dt className="text-lg font-medium text-gray-500 dark:text-gray-400">Order ID:</dt>
+                        <dd className="mt-1.5 text-lg font-semibold text-gray-900 dark:text-white">
                           <a href="#" className="hover:underline">
                             {`#FWB${Math.floor(Math.random() * 9000) + 1000}`}
                           </a>
@@ -146,25 +147,25 @@ const Account = () => {
                       </dl>
 
                       <dl className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                        <dt className="text-base font-medium text-gray-500 dark:text-gray-400">Date:</dt>
-                        <dd className="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">{elem.createdAt.toString().slice(0, 10)}</dd>
+                        <dt className="text-lg font-medium text-gray-500 dark:text-gray-400">Date:</dt>
+                        <dd className="mt-1.5 text-lg font-semibold text-gray-900 dark:text-white">{elem.createdAt.toString().slice(0, 10)}</dd>
                       </dl>
 
                       <dl className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                        <dt className="text-base font-medium text-gray-500 dark:text-gray-400">Price:</dt>
-                        <dd className="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">${elem.price}</dd>
+                        <dt className="text-lg font-medium text-gray-500 dark:text-gray-400">Price:</dt>
+                        <dd className="mt-1.5 text-lg font-semibold text-gray-900 dark:text-white">${elem.price}</dd>
                       </dl>
 
                       {elem.status === "pre-order" ? (
                         <dl className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                          <dt className="text-base font-medium text-gray-500 dark:text-gray-400">Status:</dt>
+                          <dt className="text-lg font-medium text-gray-500 dark:text-gray-400">Status:</dt>
                           <dd className="me-2 mt-1.5 inline-flex items-center rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium  text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">
                             <svg
                               className="me-1 h-3 w-3"
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
+                              width="30"
+                              height="30"
                               fill="none"
                               viewBox="0 0 24 24"
                             >
@@ -181,14 +182,14 @@ const Account = () => {
                         </dl>
                       ) : (
                         <dl className="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
-                          <dt className="text-base font-medium text-gray-500 dark:text-gray-400">Status:</dt>
-                          <dd className="me-2 mt-1.5 inline-flex items-center rounded bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-300">
+                          <dt className="text-lg font-medium text-gray-500 dark:text-gray-400">Status:</dt>
+                          <dd className="me-2 mt-1.5 inline-flex items-center rounded bg-red-100 px-2.5 py-0.5 text-lg font-medium text-red-800 dark:bg-red-900 dark:text-red-300">
                             <svg
                               className="me-1 h-3 w-3"
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
+                              width="30"
+                              height="30"
                               fill="none"
                               viewBox="0 0 24 24"
                             >
@@ -211,7 +212,7 @@ const Account = () => {
                           onClick={() => {
                             handlechangestatus(elem.id);
                           }}
-                          className="w-full rounded-lg border border-red-700 px-3 py-2 text-center text-sm font-medium text-red-700 hover:bg-red-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900 lg:w-auto"
+                          className="w-full rounded-lg border border-red-700 px-3 py-2 text-center text-lg  font-medium text-red-700 hover:bg-red-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900 lg:w-auto"
                         >
                           Cancel order
                         </button>

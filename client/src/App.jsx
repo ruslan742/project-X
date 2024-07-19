@@ -39,22 +39,22 @@ const App = () => {
         }
       }
     });
-if(snap.email){
-    try {
-      axios.get("/api/bascet/").then(({ data }) => {
-        const items = data.map((element) => ({
-          ...JSON.parse(element.product),
-          id: element.id,
-        }));
-        state.cartItems = items;
-      });
-    } catch (error) {
-      toast.error("Something went wrong.");
+    if (snap.email) {
+      try {
+        axios.get("/api/bascet/").then(({ data }) => {
+          const items = data.map((element) => ({
+            ...JSON.parse(element.product),
+            id: element.id,
+          }));
+          state.cartItems = items;
+        });
+      } catch (error) {
+        toast.error("Something went wrong.");
+      }
     }
-  }
 
     return () => unsubscribe();
-  }, []);
+  }, [snap.email]);
 
   return (
     <Router>
