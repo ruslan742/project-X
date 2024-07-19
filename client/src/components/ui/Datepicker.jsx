@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Datepicker from "tailwind-datepicker-react";
 
 const options = {
-  title: "Demo Title",
+ 
   autoHide: true,
   todayBtn: false,
   clearBtn: true,
@@ -15,7 +15,7 @@ const options = {
     clearBtn: "",
     icons: "",
     text: "",
-    disabledText: "bg-red-500",
+    disabledText: "bg-gray-600",
     input: "",
     inputIcon: "",
     selected: "",

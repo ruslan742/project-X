@@ -10,12 +10,16 @@ import Datepicker from "../ui/Datepicker";
 import state from "../../store";
 import { useSnapshot } from "valtio";
 import axios from "axios";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 // import Payment from '../ui/Payment';
 //template_7zasq57
 //service_06ydlko
 //v8tfH1PqmqX4ZRrxq
+const validateCardNumber = (number) => {
+  const cleanedNumber = number.replace(/\D/g, "");
+  return /^\d{16}$/.test(cleanedNumber);
+};
 const Contact = () => {
   const snap = useSnapshot(state);
   const formRef = useRef();
@@ -25,19 +29,44 @@ const Contact = () => {
     message: "",
   });
   const [loading, setLoading] = useState(false);
+  const [cardNumber, setCardNumber] = useState("");
+  const [cvc, setCvc] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
-  const handleSubmit = () => {
-    //e.preventDefault();
+
+  const formatCardNumber = (number) => {
+    return number.replace(/\D/g, "").replace(/(\d{4})(?=\d)/g, "$1-");
+  };
+
+  const handleCardNumberChange = (e) => {
+    const formattedCardNumber = formatCardNumber(e.target.value);
+    setCardNumber(formattedCardNumber);
+  };
+  const validateCvc = (cvc) => /^\d{3}$/.test(cvc);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (snap.totalQuantities == 0) {
+      toast.error("Your shopping cart is empty.");
+      return;
+    }
     // if (snap.email === "") {
     //   toast.error("Registration is needed.");
     //   return;
     // }
+    // if (!validateCardNumber(cardNumber)) {
+    //   toast.error("Invalid card number.");
+    //   return;
+    // }
+    if (!validateCvc(cvc)) {
+      toast.error("Invalid CVV.");
+      return;
+    }
     setLoading(true);
     try {
-     // console.log("product", product);
+      // console.log("product", product);
       //console.log('',product)
       axios
         .post(`api/order/${snap.email}`, {
@@ -81,7 +110,7 @@ const Contact = () => {
         },
         (error) => {
           setLoading(false);
-          alert("Something went wrong.");
+          toast.error("Something went wrong.");
         }
       );
   };
@@ -106,7 +135,7 @@ const Contact = () => {
                     type="text"
                     id="full_name"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                    placeholder="Bonnie Green"
+                    placeholder="Surname Name"
                     required
                   />
                 </div>
@@ -117,12 +146,16 @@ const Contact = () => {
                     Card number*{" "}
                   </label>
                   <input
+                    value={cardNumber}
+                    onChange={handleCardNumberChange}
+                    // onChange={(e) => setCardNumber(e.target.value)}
                     type="text"
                     id="card-number-input"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pe-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                     placeholder="xxxx-xxxx-xxxx-xxxx"
-                    pattern="^4[0-9]{12}(?:[0-9]{3})?$"
+                    //pattern="^4[0-9]{12}(?:[0-9]{3})?$"
                     required
+                    maxLength="19"
                   />
                 </div>
 
@@ -187,23 +220,27 @@ const Contact = () => {
                     </div>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     id="cvv-input"
+                    value={cvc}
+                    onChange={(e) => setCvc(e.target.value)}
                     aria-describedby="helper-text-explanation"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                     placeholder="•••"
+                    maxLength="3"
                     required
                   />
                 </div>
               </div>
-
-              <button
-                type="submit"
-                onClick={() => handleSubmit()}
-                className="flex w-full items-center justify-center rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-lg dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
-              >
-                Pay now
-              </button>
+              
+                <button
+                  type="submit"
+                  onClick={(e) => handleSubmit(e)}
+                  className="flex w-full items-center justify-center rounded-lg bg-gray-800 px-6 py-3 text-base font-semibold text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-500 shadow-lg"
+                >
+                  Pay now
+                </button>
+              
             </form>
             <div className="mt-6 grow sm:mt-8 lg:mt-0">
               <div className="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
@@ -220,28 +257,22 @@ const Contact = () => {
 
                   <dl className="flex items-center justify-between gap-4">
                     <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">$99</dd>
+                    <dd className="text-base font-medium text-gray-900 dark:text-white">$10</dd>
                   </dl>
 
                   <dl className="flex items-center justify-between gap-4">
                     <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">$799</dd>
+                    <dd className="text-base font-medium text-gray-900 dark:text-white">$ 99</dd>
                   </dl>
                 </div>
 
                 <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                   <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                  <dd className="text-base font-bold text-gray-900 dark:text-white">${+snap.totalPrice + 799 + 99}</dd>
+                  <dd className="text-base font-bold text-gray-900 dark:text-white">${+snap.totalPrice + 99 + 10}</dd>
                 </dl>
               </div>
 
               <div className="mt-6 flex items-center justify-center gap-8">
-                <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg" alt="" />
-                <img
-                  className="hidden h-8 w-auto dark:flex"
-                  src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal-dark.svg"
-                  alt=""
-                />
                 <img className="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
                 <img
                   className="hidden h-8 w-auto dark:flex"

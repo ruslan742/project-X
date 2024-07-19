@@ -23,7 +23,7 @@ export default function NameOfStore() {
         </Suspense>
       </Canvas>
       <p id="title" className="section-heading" style={{ textAlign: "center" }}>
-        Take something ready-made or create your own - a store of possibilities for you..
+      Create. Print. Wear.
       </p>
     </section>
   );

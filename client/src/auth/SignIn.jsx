@@ -5,7 +5,7 @@ import { auth, db } from "./firebase";
 import { toast } from "react-toastify";
 import { doc, getDoc } from "firebase/firestore";
 import state from "../store";
-
+import axios from "axios";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +21,8 @@ const SignIn = () => {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        state.userName = userData.userName;
+        console.log("userData", userData);
+        state.userName = userData.displayName;
         state.email = userData.email;
       }
 
@@ -39,19 +40,28 @@ const SignIn = () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredential = await signInWithPopup(auth, provider);
+      console.log("userCredential", userCredential);
+
       const user = userCredential.user;
 
-      const userDoc = await getDoc(doc(db, "users", user.uid));
+      //const userDoc = await getDoc(doc(db, "users", user.uid));
+      //const userData = userDoc.data();
+      if (user.displayName) state.userName = user.displayName.charAt(0).toUpperCase() + user.displayName.slice(1);
+      if(user.email) state.email=user.email
+      await axios.post("api/auth/signup", { email: state.email, username: state.userName });
       if (userDoc.exists()) {
-        const userData = userDoc.data();
-        state.userName = userData.userName;
-        state.email = userData.email;
+        console.log("userData", userDoc);
+        //state.userName = userData.displayName;
+
+        //state.email = userData.email;
       }
+
+      console.log("user", state.userName);
 
       toast.success("Google login successful!");
       navigate("/"); // Переход на главную страницу
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       toast.error("Google login failed!");
     }
   };
